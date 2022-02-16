@@ -39,9 +39,9 @@ If you now start the program, in via the `Starter.start` method, you will be ask
 want to run:
 
 ```java
-public static void main(String[]args)throws Exception{
-    Starter.start(Application.class,args);
-    }
+public static void main(String[]args) throws Exception {
+    Starter.start(Application.class, args);
+}
 ```
 
 Console Output:
@@ -67,9 +67,9 @@ parse the input:
 
 ```java
 @Entrypoint("Echo")
-public void echo(final String input){
+public void echo(final String input) {
     System.out.println("Echo! "+input);
-    }
+}
 ```
 
 Console Output:
@@ -89,9 +89,9 @@ These names can be changed with the `@Prompt` annotation:
 
 ```java
 @Entrypoint("Echo")
-public void echo(@Prompt("Echo!") final String input){
+public void echo(@Prompt("Echo!") final String input) {
     System.out.println("Echo! "+input);
-    }
+}
 ```
 
 Console-Output:
@@ -109,12 +109,9 @@ Default values can be specified using the `@Default` annotation.
 
 ```java
 @Entrypoint("Echo")
-public void echo(
-@Default("Hello :)")
-@Prompt("Echo!") final String input
-    ){
+public void echo(@Default("Hello :)") @Prompt("Echo!") final String input) {
     System.out.println("Echo! "+input);
-    }
+}
 ```
 
 Console-Output:
@@ -133,11 +130,9 @@ can be specified using the `@Min`, `@Max` annotation:
 
 ```java
 @Entrypoint("Echo")
-public void echo(
-@Prompt("Age") @Min(0) @Max(100) final int age
-    ){
+public void echo(@Prompt("Age") @Min(0) @Max(100) final int age) {
     System.out.println("You're "+age+" years old!");
-    }
+}
 ```
 
 Console-Output:
@@ -162,9 +157,9 @@ but can be turned off by passing false:
 
 ```java
 @Entrypoint("Name")
-public void echo(@Prompt("Name") @Trim(false) String str){
+public void echo(@Prompt("Name") @Trim(false) String str) {
     System.out.printf("Hello, %s!%n",str);
-    }
+}
 ```
 
 ### Custom Wrappers
@@ -199,7 +194,7 @@ Now the rectangle can be used as a parameter in an Entry method:
 
 ```java
 @Entrypoint
-public void run(@Prompt("Rect") Rectangle rect){
+public void run(@Prompt("Rect") Rectangle rect) {
     System.out.println(rect);
 }
 ```
@@ -365,11 +360,14 @@ values are ***injected only after the object is initialized**.*
 
 2. Add the `eeee`-dependency:
 
+[![](https://jitpack.io/v/darmiel/eeee.svg)](https://jitpack.io/#darmiel/eeee)
+
+
 ```xml
 <dependency>
     <groupId>com.github.darmiel</groupId>
     <artifactId>eeee</artifactId>
-    <version>1.0</version>
+    <version>-SNAPSHOT</version>
 </dependency>
 ```
 
