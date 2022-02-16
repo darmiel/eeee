@@ -10,10 +10,10 @@ import io.d2a.eeee.generate.Factory;
 import io.d2a.eeee.wrapper.Wrapper;
 import java.util.Scanner;
 
-public class Application {
+public class CustomWrapper {
 
     public static void main(String[] args) throws Exception {
-        Starter.start(Application.class, args);
+        Starter.start(CustomWrapper.class, args);
     }
 
     public static class Rectangle implements Wrapper<Rectangle> {

@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class Wrappers {
 
-    public static final Map<Class<?>, Wrapper<?>> WRAPPERS = new HashMap<>() {{
+    public static final Map<Class<?>, Wrapper<?>> WRAPPERS = new HashMap<Class<?>, Wrapper<?>>() {{
         put(String.class, new StringWrapper());
         put(Scanner.class, new ScannerWrapper());
     }};

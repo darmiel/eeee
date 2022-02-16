@@ -10,6 +10,10 @@ self-written code in the exams, and so I am allowed to use this mini-framework i
 **NOTE:** This framework is ab-so-lutely not suitable for production use. 
 It should only serve for practice.
 
+**See EEEE in Action:**
+
+![prev](assets/action.gif)
+
 ## Entrypoint
 
 The framework makes it very easy to define multiple "entry points"
@@ -343,6 +347,31 @@ public class App {
 **NOTE:** The Factory class currently only accesses the default constructor (without arguments). The
 values are ***injected only after the object is initialized**.*
 
+
+## Installation
+
+### Maven
+
+1. Add this repository to your `pom.xml`:
+
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
+
+2. Add the `eeee`-dependency:
+
+```xml
+<dependency>
+    <groupId>com.github.darmiel</groupId>
+    <artifactId>eeee</artifactId>
+    <version>1.0</version>
+</dependency>
+```
 
 ---
 
