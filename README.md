@@ -150,6 +150,21 @@ You're 19 years old!
 
 #### Other (more or less) useful Annotations
 
+##### ForceRun
+
+An EntryPoint can additionally be unannotated with `@ForceRun`, 
+which causes the specified EntryPoint to be executed on startup without prompting. 
+This is practical, for example, if you want to test an entrypoint individually 
+and do not want to enter again and again which entrypoint you want to start.
+
+```java
+@ForceRun
+@Entrypoint("Name")
+public void echo() {
+    System.out.println("Hello World!");
+}
+```
+
 ##### Trim
 
 Trim can be used on strings to remove spaces from entered strings. By default this function is on,
@@ -218,67 +233,97 @@ Execution complete! Took approx. 4ms.
 
 ---
 
-## Injection
+## Generator
 
-The framework includes a Mini-Injector functionality.
-Injected values can be used in entrypoint classes by default:
+Sample objects can be created with the help of the `RandomFactory`. 
+To do this, any constructor in the target class must be annotated with `@Generate`.
+
+**NOTE:** make sure all parameters can be generated.
 
 ```java
-import io.d2a.eeee.annotations.Entrypoint;
-import io.d2a.eeee.inject.Inject;
+// define person class
+public class Person {
+    private final String name;
+    private final int age;
 
-public class App {
-
-    @Inject
-    private Scanner scanner; // scanner which asks for user input
+    @Generate
+    public Person(final String name, final int age) {
+        this.name = name;
+        this.age = age;
+    }
     
-    @Inject("args")
-    private String[] args; // program args
+    // ...
+}
+
+// application
+public class App {
 
     @Entrypoint
-    public void hello() {
-        final String line = this.scanner.nextLine();
-        System.out.println(line);
+    public void run() {
+        final Person person = RandomFactory.createRandom(Person.class);
+        System.out.println(person); // Person{name='AhgrEgVB', age=9}
     }
-
+    
 }
 ```
 
-Default injectable values:
-- Type `Scanner`, Name: None (`@Inject Scanner scanner`)
-- Type: `String[]`, Name: `args` (`@Inject("args") String[] args`)
+### Customize generator
 
-### Custom Injection
+The number range can be adjusted with `@Min` and `@Max`. 
+String lengths can also be adjusted with these annotations.
+
+This annotation can be written via the constructor to be applied to multiple parameters.
 
 ```java
-import io.d2a.eeee.inject.Inject;
-
-public class App {
-
-    @Inject("name")
-    private String name;
-    
-    @Inject
-    private int age;
-
-    public static void main(String[] args) {
-        final Injector injector = new Injector()
-            .register(String.class, "Thorsten", "name")
-            .register(int.class, 22);
-        
-        final App app = new App();
-        injector.inject(app);
-        app.print();
+class Person {
+    @Generate
+    public Person(final String name, @Max(100) final int age) {
+        this.name = name;
+        this.age = age;
     }
-    
-    public void print() {
-        System.out.printf("%s is %d.%n", this.name, this.age);
+    // or
+    @Generate @Max(100) // applied for a and b
+    public Person(final int a, final int b) {
+        // ...
     }
-
 }
 ```
 
----
+You can implement your own generators by implementing the Generator<T> 
+interface in the class to be generated.
+
+```java
+public class A implements Generator<A> {
+    @Override
+    public A generate(final Random random, final AnnotationProvider provider) {
+        return new A(); // generate something
+    }
+}
+
+public class B {
+    @Generate 
+    public B(final A a) {
+        // ...
+    }
+}
+```
+
+Generators can be overridden for certain parameters using @Use:
+
+```java
+class Person {
+    @Generate
+    public Person(
+        @Use(RandomNameGenerator.class) final String name,
+        @Max(100) final int age
+    ){
+        this.name = name;
+        this.age = age;
+    }
+}
+// RandomFactory.createRandom(Person.class) produces:
+// Person{name='Gary', age=54}
+```
 
 ## Factory
 
@@ -341,6 +386,70 @@ public class App {
 
 **NOTE:** The Factory class currently only accesses the default constructor (without arguments). The
 values are ***injected only after the object is initialized**.*
+
+---
+
+## Injection
+
+The framework includes a Mini-Injector functionality.
+Injected values can be used in entrypoint classes by default:
+
+```java
+import io.d2a.eeee.annotations.Entrypoint;
+import io.d2a.eeee.inject.Inject;
+
+public class App {
+
+    @Inject
+    private Scanner scanner; // scanner which asks for user input
+    
+    @Inject("args")
+    private String[] args; // program args
+
+    @Entrypoint
+    public void hello() {
+        final String line = this.scanner.nextLine();
+        System.out.println(line);
+    }
+
+}
+```
+
+Default injectable values:
+- Type `Scanner`, Name: None (`@Inject Scanner scanner`)
+- Type: `String[]`, Name: `args` (`@Inject("args") String[] args`)
+
+### Custom Injection
+
+```java
+import io.d2a.eeee.inject.Inject;
+
+public class App {
+
+    @Inject("name")
+    private String name;
+    
+    @Inject
+    private int age;
+
+    public static void main(String[] args) {
+        final Injector injector = new Injector()
+            .register(String.class, "Thorsten", "name")
+            .register(int.class, 22);
+        
+        final App app = new App();
+        injector.inject(app);
+        app.print();
+    }
+    
+    public void print() {
+        System.out.printf("%s is %d.%n", this.name, this.age);
+    }
+
+}
+```
+
+---
 
 
 ## Installation
