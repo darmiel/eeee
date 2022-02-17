@@ -10,11 +10,9 @@ self-written code in the exams, and so I am allowed to use this mini-framework i
 **NOTE:** This framework is ab-so-lutely not suitable for production use. 
 It should only serve for practice.
 
-**See EEEE in Action:**
+## Entrypoint
 
 ![prev](assets/action.gif)
-
-## Entrypoint
 
 The framework makes it very easy to define multiple "entry points"
 (annotated with `@Entrypoint`) without always having to write different main methods:
@@ -234,6 +232,8 @@ Execution complete! Took approx. 4ms.
 ---
 
 ## Generator
+
+![prev](assets/generator-action.gif)
 
 Sample objects can be created with the help of the `RandomFactory`. 
 To do this, any constructor in the target class must be annotated with `@Generate`.
