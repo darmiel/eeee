@@ -32,20 +32,16 @@ public class EntryMethod {
         final AnnotationProvider provider
     ) throws Exception {
 
-        final Wrapper<?> wrapper;
-        if (Wrapper.class.isAssignableFrom(type)) {
-            // get constructor
+        Wrapper<?> wrapper = Wrappers.WRAPPERS.get(type);
+        if (wrapper == null) {
+            if (!Wrapper.class.isAssignableFrom(type)) {
+                throw new IllegalArgumentException("cannot find wrapper for parameter " +
+                    type.getSimpleName());
+            }
             final Constructor<?> wrapperConstructor = type.getDeclaredConstructor();
             wrapperConstructor.setAccessible(true);
             wrapper = (Wrapper<?>) wrapperConstructor.newInstance();
-        } else {
-            wrapper = Wrappers.WRAPPERS.get(type);
-        }
-
-        // check if a wrapper is present for the paramter type
-        if (wrapper == null) {
-            throw new IllegalArgumentException("cannot find wrapper for parameter " +
-                type.getSimpleName());
+            Wrappers.WRAPPERS.put(type, wrapper);
         }
 
         // execute wrapper
