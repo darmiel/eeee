@@ -1,16 +1,15 @@
 package io.d2a.eeee.annotations.generate;
 
-import io.d2a.eeee.generate.placeholder.Generator;
 import io.d2a.eeee.generate.placeholder.generators.DummyGenerator;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.PARAMETER, ElementType.CONSTRUCTOR})
-public @interface Generate {
+public @interface Use {
 
-    Class<? extends Generator> generator() default DummyGenerator.class;
+    Class<?> value() default DummyGenerator.class;
 
 }

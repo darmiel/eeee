@@ -1,14 +1,14 @@
 package io.d2a.eeee.generate.placeholder;
 
 import io.d2a.eeee.annotations.AnnotationProvider;
+import io.d2a.eeee.annotations.AnyAnnotationProvider;
 import io.d2a.eeee.annotations.generate.Generate;
-import io.d2a.eeee.generate.placeholder.generators.DummyGenerator;
+import io.d2a.eeee.annotations.generate.Use;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Stream;
 
 public class RandomFactory {
 
@@ -44,35 +44,37 @@ public class RandomFactory {
         return generator.generate(RANDOM, provider);
     }
 
-    private static <T> Constructor<T> getGeneratorConstructor(final Class<T> clazz)
+    private static <T> Constructor<T> findGenerateConstructor(final Class<T> clazz)
         throws Exception {
 
         for (final Constructor<?> constructor : clazz.getDeclaredConstructors()) {
-            if (constructor.getParameterCount() <= 0) {
-                continue;
-            }
-            if (Stream.of(constructor.getParameters())
-                .allMatch(p -> p.isAnnotationPresent(Generate.class))) {
+            if (constructor.isAnnotationPresent(Generate.class)) {
                 return clazz.getDeclaredConstructor(constructor.getParameterTypes());
             }
         }
-        throw new NoSuchMethodException("generateable constructor not found for " + clazz);
+        throw new NoSuchMethodException("no generator-constructor not found for " + clazz);
     }
 
     public static <T> T createRandom(final Class<T> clazz) throws Exception {
-        final Constructor<T> constructor = getGeneratorConstructor(clazz);
+        final Constructor<T> constructor = findGenerateConstructor(clazz);
         final List<Object> parameters = new ArrayList<>();
         for (final Parameter parameter : constructor.getParameters()) {
-            final Generate generate = parameter.getAnnotation(Generate.class);
 
+            // use parameter type generator or specified
             final Class<?> generator;
-            if (generate.generator() != DummyGenerator.class) {
-                generator = generate.generator();
+            if (parameter.isAnnotationPresent(Use.class)) {
+                generator = parameter.getAnnotation(Use.class).value();
             } else {
                 generator = parameter.getType();
             }
 
-            final Object val = generateRandomValue(generator, parameter::getAnnotation);
+            final Object val = generateRandomValue(
+                generator,
+                new AnyAnnotationProvider(
+                    parameter::getAnnotation,
+                    constructor::getAnnotation
+                ));
+
             parameters.add(val);
         }
         return constructor.newInstance(parameters.toArray());

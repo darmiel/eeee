@@ -3,6 +3,7 @@ package example;
 import io.d2a.eeee.Starter;
 import io.d2a.eeee.annotations.Entrypoint;
 import io.d2a.eeee.annotations.generate.Generate;
+import io.d2a.eeee.annotations.generate.Use;
 import io.d2a.eeee.annotations.parameters.number.Max;
 import io.d2a.eeee.annotations.parameters.number.Min;
 import io.d2a.eeee.generate.placeholder.RandomFactory;
@@ -18,20 +19,31 @@ public class RandomClasses {
     public static class Person {
         private final String name;
         private final int age;
+        private final int a;
+        private final int b;
 
+        @Generate @Min(20)
         public Person(
-            @Generate(generator = RandomNameGenerator.class) final String name,
-            @Generate @Max(100) final int age
+            @Use(RandomNameGenerator.class) final String name,
+            @Min(1) final int age,
+            final int a,
+            final int b
         ) {
             this.name = name;
             this.age = age;
+            this.a = a;
+            this.b = b;
         }
 
         @Override
         public String toString() {
-            return String.format("%s ist %d Jahre alt", this.name, this.age);
+            return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", a=" + a +
+                ", b=" + b +
+                '}';
         }
-
     }
 
     @Entrypoint
