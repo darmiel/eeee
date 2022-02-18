@@ -1,6 +1,6 @@
 package io.d2a.eeee.generate.placeholder.generators;
 
-import io.d2a.eeee.annotations.AnnotationProvider;
+import io.d2a.eeee.annotations.provider.AnnotationProvider;
 import io.d2a.eeee.generate.placeholder.Generator;
 import java.util.Random;
 

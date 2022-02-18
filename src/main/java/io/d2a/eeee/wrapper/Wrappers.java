@@ -1,5 +1,8 @@
 package io.d2a.eeee.wrapper;
 
+import io.d2a.eeee.EntryMethod;
+import io.d2a.eeee.annotations.provider.AnnotationProvider;
+import io.d2a.eeee.annotations.provider.EmptyAnnotationProvider;
 import io.d2a.eeee.wrapper.wrappers.BooleanWrapper;
 import io.d2a.eeee.wrapper.wrappers.DoubleWrapper;
 import io.d2a.eeee.wrapper.wrappers.IntegerWrapper;
@@ -33,6 +36,28 @@ public class Wrappers {
         final BooleanWrapper booleanWrapper = new BooleanWrapper();
         WRAPPERS.put(boolean.class, booleanWrapper);
         WRAPPERS.put(Boolean.class, booleanWrapper);
+    }
+
+    public static <T> T prompt(
+        final Scanner scanner,
+        final Class<T> clazz,
+        final String prompt,
+        final AnnotationProvider provider
+    ) {
+        try {
+            final Object val = EntryMethod.promptValue(scanner, clazz, prompt, provider);
+            return (T) val;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static <T> T prompt(
+        final Scanner scanner,
+        final Class<T> clazz,
+        final String prompt
+    ) {
+        return prompt(scanner, clazz, prompt, EmptyAnnotationProvider.DEFAULT);
     }
 
 }

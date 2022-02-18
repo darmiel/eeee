@@ -1,6 +1,6 @@
 package io.d2a.eeee;
 
-import io.d2a.eeee.annotations.AnnotationProvider;
+import io.d2a.eeee.annotations.provider.AnnotationProvider;
 import io.d2a.eeee.annotations.Entrypoint;
 import io.d2a.eeee.annotations.parameters.Prompt;
 import io.d2a.eeee.inject.Injector;

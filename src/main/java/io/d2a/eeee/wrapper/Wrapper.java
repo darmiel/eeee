@@ -1,6 +1,6 @@
 package io.d2a.eeee.wrapper;
 
-import io.d2a.eeee.annotations.AnnotationProvider;
+import io.d2a.eeee.annotations.provider.AnnotationProvider;
 import java.util.Scanner;
 
 public interface Wrapper<T> {

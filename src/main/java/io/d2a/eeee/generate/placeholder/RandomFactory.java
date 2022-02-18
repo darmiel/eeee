@@ -1,7 +1,7 @@
 package io.d2a.eeee.generate.placeholder;
 
-import io.d2a.eeee.annotations.AnnotationProvider;
-import io.d2a.eeee.annotations.AnyAnnotationProvider;
+import io.d2a.eeee.annotations.provider.AnnotationProvider;
+import io.d2a.eeee.annotations.provider.AnyAnnotationProvider;
 import io.d2a.eeee.annotations.generate.Generate;
 import io.d2a.eeee.annotations.generate.Use;
 import java.lang.reflect.Constructor;

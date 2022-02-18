@@ -1,7 +1,7 @@
 package example;
 
 import io.d2a.eeee.Starter;
-import io.d2a.eeee.annotations.AnnotationProvider;
+import io.d2a.eeee.annotations.provider.AnnotationProvider;
 import io.d2a.eeee.annotations.Default;
 import io.d2a.eeee.annotations.Entrypoint;
 import io.d2a.eeee.annotations.parameters.Prompt;

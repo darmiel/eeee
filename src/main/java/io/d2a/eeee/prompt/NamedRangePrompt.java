@@ -1,6 +1,6 @@
 package io.d2a.eeee.prompt;
 
-import io.d2a.eeee.annotations.AnnotationProvider;
+import io.d2a.eeee.annotations.provider.AnnotationProvider;
 import io.d2a.eeee.annotations.Annotations;
 import io.d2a.eeee.annotations.parameters.number.Max;
 import io.d2a.eeee.annotations.parameters.number.Min;

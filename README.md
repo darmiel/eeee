@@ -181,7 +181,7 @@ If you want to use your own types as parameters,
 these types must implement the `Wrapper<T>` interface:
 
 ```java
-import io.d2a.eeee.annotations.AnnotationProvider;
+import io.d2a.eeee.annotations.provider.AnnotationProvider;
 import io.d2a.eeee.generate.Factory;
 import io.d2a.eeee.wrapper.Wrapper;
 import java.util.Scanner;
@@ -225,9 +225,8 @@ Rectangle{height=12, width=41}
 Execution complete! Took approx. 4ms.
 ```
 
-- See **example** for a full example.
-- See **wrappers** for some predefined wrappers
-
+- See [example](https://github.com/darmiel/eeee/tree/main/src/main/java/example) for a full example.
+- See [wrappers](https://github.com/darmiel/eeee/tree/main/src/main/java/io/d2a/eeee/wrapper/wrappers) for some predefined wrappers
 
 ---
 

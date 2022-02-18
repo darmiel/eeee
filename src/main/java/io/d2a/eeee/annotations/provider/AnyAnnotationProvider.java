@@ -1,4 +1,4 @@
-package io.d2a.eeee.annotations;
+package io.d2a.eeee.annotations.provider;
 
 import java.lang.annotation.Annotation;
 
