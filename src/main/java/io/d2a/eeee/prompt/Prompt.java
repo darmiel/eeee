@@ -1,6 +1,6 @@
 package io.d2a.eeee.prompt;
 
-import io.d2a.eeee.annotations.provider.AnnotationProvider;
+import io.d2a.eeee.annotation.provider.AnnotationProvider;
 
 public interface Prompt {
 

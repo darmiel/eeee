@@ -1,12 +1,12 @@
 package example;
 
 import io.d2a.eeee.Starter;
-import io.d2a.eeee.annotations.Entrypoint;
-import io.d2a.eeee.annotations.generate.Generate;
-import io.d2a.eeee.annotations.generate.Use;
-import io.d2a.eeee.annotations.parameters.number.Min;
-import io.d2a.eeee.generate.placeholder.RandomFactory;
-import io.d2a.eeee.generate.placeholder.generators.RandomNameGenerator;
+import io.d2a.eeee.annotation.annotations.Entrypoint;
+import io.d2a.eeee.annotation.annotations.Generate;
+import io.d2a.eeee.annotation.annotations.Use;
+import io.d2a.eeee.annotation.annotations.Range;
+import io.d2a.eeee.generate.random.RandomFactory;
+import io.d2a.eeee.generate.random.generators.RandomNameGenerator;
 import java.util.stream.Stream;
 
 public class RandomClasses {
@@ -20,7 +20,9 @@ public class RandomClasses {
         private final int b;
 
         @Generate
-        public Num2D(final int a, final int b) {
+        public Num2D(
+            @Range({1, 10}) final int a,
+            @Range(1) final int b) {
             this.a = a;
             this.b = b;
         }
@@ -40,10 +42,10 @@ public class RandomClasses {
         private final int a;
         private final int b;
 
-        @Generate @Min(20)
+        @Generate
         public Person(
             @Use(RandomNameGenerator.class) final String name,
-            @Min(1) final int age,
+            final int age,
             final int a,
             final int b
         ) {
@@ -67,7 +69,7 @@ public class RandomClasses {
     @Entrypoint
     public void run() throws Exception {
         final Num2D[] numbers = new Num2D[5];
-        RandomFactory.fillArrayRandom(numbers, Num2D.class);
+        RandomFactory.fillArrayRandom(numbers);
         Stream.of(numbers).forEach(System.out::println);
     }
 

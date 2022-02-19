@@ -8,7 +8,7 @@ Also, I didn't use any existing frameworks, because apparently we are only allow
 self-written code in the exams, and so I am allowed to use this mini-framework in the exams.
 
 **NOTE:** This framework is ab-so-lutely not suitable for production use. 
-It should only serve for practice.
+It should only serve for practice. Also, definitely not type-safe.
 
 ## Entrypoint
 
@@ -181,7 +181,7 @@ If you want to use your own types as parameters,
 these types must implement the `Wrapper<T>` interface:
 
 ```java
-import io.d2a.eeee.annotations.provider.AnnotationProvider;
+import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.generate.Factory;
 import io.d2a.eeee.wrapper.Wrapper;
 import java.util.Scanner;
@@ -394,14 +394,14 @@ The framework includes a Mini-Injector functionality.
 Injected values can be used in entrypoint classes by default:
 
 ```java
-import io.d2a.eeee.annotations.Entrypoint;
+import io.d2a.eeee.annotation.annotations.Entrypoint;
 import io.d2a.eeee.inject.Inject;
 
 public class App {
 
     @Inject
     private Scanner scanner; // scanner which asks for user input
-    
+
     @Inject("args")
     private String[] args; // program args
 

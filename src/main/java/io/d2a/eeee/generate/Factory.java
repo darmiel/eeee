@@ -1,7 +1,7 @@
 package io.d2a.eeee.generate;
 
 import io.d2a.eeee.EntryMethod;
-import io.d2a.eeee.annotations.parameters.Prompt;
+import io.d2a.eeee.annotation.annotations.Prompt;
 import io.d2a.eeee.inject.Injector;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

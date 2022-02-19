@@ -1,8 +1,8 @@
 package io.d2a.eeee.wrapper;
 
 import io.d2a.eeee.EntryMethod;
-import io.d2a.eeee.annotations.provider.AnnotationProvider;
-import io.d2a.eeee.annotations.provider.EmptyAnnotationProvider;
+import io.d2a.eeee.annotation.provider.AnnotationProvider;
+import io.d2a.eeee.annotation.provider.EmptyAnnotationProvider;
 import io.d2a.eeee.wrapper.wrappers.BooleanWrapper;
 import io.d2a.eeee.wrapper.wrappers.DoubleWrapper;
 import io.d2a.eeee.wrapper.wrappers.IntegerWrapper;
@@ -38,6 +38,7 @@ public class Wrappers {
         WRAPPERS.put(Boolean.class, booleanWrapper);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T prompt(
         final Scanner scanner,
         final Class<T> clazz,

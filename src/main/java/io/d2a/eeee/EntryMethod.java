@@ -1,8 +1,8 @@
 package io.d2a.eeee;
 
-import io.d2a.eeee.annotations.provider.AnnotationProvider;
-import io.d2a.eeee.annotations.Entrypoint;
-import io.d2a.eeee.annotations.parameters.Prompt;
+import io.d2a.eeee.annotation.provider.AnnotationProvider;
+import io.d2a.eeee.annotation.annotations.Entrypoint;
+import io.d2a.eeee.annotation.annotations.Prompt;
 import io.d2a.eeee.inject.Injector;
 import io.d2a.eeee.wrapper.Wrapper;
 import io.d2a.eeee.wrapper.Wrappers;

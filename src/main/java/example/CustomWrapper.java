@@ -1,11 +1,10 @@
 package example;
 
 import io.d2a.eeee.Starter;
-import io.d2a.eeee.annotations.provider.AnnotationProvider;
-import io.d2a.eeee.annotations.Default;
-import io.d2a.eeee.annotations.Entrypoint;
-import io.d2a.eeee.annotations.parameters.Prompt;
-import io.d2a.eeee.annotations.parameters.number.Min;
+import io.d2a.eeee.annotation.provider.AnnotationProvider;
+import io.d2a.eeee.annotation.annotations.Default;
+import io.d2a.eeee.annotation.annotations.Entrypoint;
+import io.d2a.eeee.annotation.annotations.Prompt;
 import io.d2a.eeee.generate.Factory;
 import io.d2a.eeee.wrapper.Wrapper;
 import java.util.Scanner;
@@ -20,11 +19,9 @@ public class CustomWrapper {
 
         @Prompt("Height")
         @Default("12")
-        @Min(0)
         private int height;
 
         @Prompt("Width")
-        @Min(0)
         private int width;
 
         @Override
