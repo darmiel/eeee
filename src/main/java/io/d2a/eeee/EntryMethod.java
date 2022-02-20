@@ -51,24 +51,21 @@ public class EntryMethod {
     public void invoke(final Scanner scanner, final Injector injector) throws Exception {
         final String typeStr = Starter.formatTypes(method.getParameterTypes(), true);
 
-        // get constructor
-        final Constructor<?> constructor = this.clazz.getDeclaredConstructor();
-        constructor.setAccessible(true);
-
-        // create instance
-        final Object instance = constructor.newInstance();
-
-        // inject fields into instance
-        injector.inject(instance);
+        // create starter class using injector
+        final Object instance = injector.create(this.clazz);
 
         final List<Object> parameters = new ArrayList<>();
 
         // get parameters from method
-        System.out.printf("[Runner] Requesting parameters (%s) ...%n", typeStr);
+        if (this.entrypoint.verbose()) {
+            System.out.printf("[Runner] Requesting parameters (%s) ...%n", typeStr);
+        }
 
         // request parameters
         if (this.method.getParameterCount() > 0) {
-            System.out.println();
+            if (this.entrypoint.verbose()) {
+                System.out.println();
+            }
 
             for (final Parameter parameter : this.method.getParameters()) {
                 final String prompt;
@@ -89,16 +86,23 @@ public class EntryMethod {
         }
         System.out.println();
 
-        // invoke method
-        System.out.printf("[Runner] Invoking %s@%s w/ (%s)...%n---%n",
-            method.getName(), clazz.getSimpleName(), typeStr);
+        if (this.entrypoint.verbose()) {
+            // invoke method
+            System.out.printf("[Runner] Invoking %s@%s w/ (%s)...%n",
+                method.getName(), clazz.getSimpleName(), typeStr);
+        }
+
+        System.out.println("---");
 
         final long timeStart = System.currentTimeMillis();
         this.method.invoke(instance, parameters.toArray());
         final long timeEnd = System.currentTimeMillis();
 
         System.out.println("---");
-        System.out.printf("Execution complete! Took approx. %dms.%n", timeEnd - timeStart);
+
+        if (this.entrypoint.stopwatch()) {
+            System.out.printf("Execution complete! Took approx. %dms.%n", timeEnd - timeStart);
+        }
     }
 
 }

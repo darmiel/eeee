@@ -1,6 +1,11 @@
 package io.d2a.eeee.inject;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Injector {
 
@@ -42,6 +47,52 @@ public class Injector {
             System.out.printf("[Injector] injected field %s%n", field.getName());
             field.set(instance, value);
         }
+    }
+
+    private <T> Constructor<T> findInjectableConstructor(final Class<T> clazz)
+        throws NoSuchMethodException {
+        for (final Constructor<?> constr : clazz.getDeclaredConstructors()) {
+            for (final Parameter parameter : constr.getParameters()) {
+                if (parameter.isAnnotationPresent(Inject.class)) {
+                    return clazz.getDeclaredConstructor(constr.getParameterTypes());
+                }
+            }
+        }
+        throw new NoSuchMethodException("injectable constructor not found");
+    }
+
+    public <T> T create(final Class<T> clazz) throws
+        NoSuchMethodException,
+        InvocationTargetException,
+        InstantiationException,
+        IllegalAccessException {
+
+        Constructor<T> constructor; // = this.findInjectableConstructor(clazz);
+
+        try {
+            constructor = this.findInjectableConstructor(clazz);
+        } catch (NoSuchMethodException nsmex) {
+            constructor = clazz.getDeclaredConstructor();
+        }
+
+        constructor.setAccessible(true);
+
+        final List<Object> parameters = new ArrayList<>();
+        for (final Parameter parameter : constructor.getParameters()) {
+            final Inject inject = parameter.getAnnotation(Inject.class);
+            if (inject == null) {
+                parameters.add(null);
+                continue;
+            }
+            parameters.add(this.find(parameter.getType(), inject.value()));
+        }
+
+        final T instance = constructor.newInstance(parameters.toArray());
+
+        // inject field values
+        this.inject(instance);
+
+        return instance;
     }
 
 }

@@ -11,4 +11,8 @@ public @interface Entrypoint {
 
     String value() default "Default";
 
+    boolean verbose() default true;
+
+    boolean stopwatch() default true;
+
 }

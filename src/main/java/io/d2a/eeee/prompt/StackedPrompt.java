@@ -26,7 +26,7 @@ public class StackedPrompt implements Prompt {
         final double min = Annotations.getRangeMin(range.value());
         final double max = Annotations.getRangeMax(range.value());
         final double step = Annotations.getRangeStep(range.value());
-        return String.format("[%s-%s#%s]", wrapMin.accept(min), wrapMax.accept(max),
+        return String.format("[%s-%s%%%s]", wrapMin.accept(min), wrapMax.accept(max),
             wrapStep.accept(step));
     }
 
