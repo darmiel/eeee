@@ -1,8 +1,9 @@
-package io.d2a.eeee.generate.random.generators;
+package io.d2a.eeee.generate.random.generators.special;
 
+import io.d2a.eeee.generate.random.generators.StringGenerator;
 import java.util.Random;
 
-public class RandomNameGenerator extends StringGenerator {
+public class NameGenerator extends StringGenerator {
 
     @Override
     public String generateString(final Random random, final int length) {

@@ -2,7 +2,7 @@ package io.d2a.eeee.generate.random;
 
 import io.d2a.eeee.generate.random.generators.DoubleGenerator;
 import io.d2a.eeee.generate.random.generators.IntGenerator;
-import io.d2a.eeee.generate.random.generators.RandomNameGenerator;
+import io.d2a.eeee.generate.random.generators.special.NameGenerator;
 import io.d2a.eeee.generate.random.generators.StringGenerator;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -14,7 +14,7 @@ public class Generators {
     public static final Generator<Integer> INT = new IntGenerator();
     public static final Generator<Double> DOUBLE = new DoubleGenerator();
     public static final Generator<String> STRING = new StringGenerator();
-    public static final Generator<String> NAME = new RandomNameGenerator();
+    public static final Generator<String> NAME = new NameGenerator();
 
     public static final Map<Class<?>, Generator<?>> GENERATORS = new HashMap<>();
 
