@@ -22,9 +22,11 @@ public class StringGenerator extends MinMaxGenerator<String> {
     public String generate(
         final Random random,
         final double min,
-        final double max, final AnnotationProvider provider
+        final double max,
+        final double step,
+        final AnnotationProvider provider
     ) {
-        final int n;
+        int n;
 
         final int mini = (int) min;
         final int maxi = (int) max;
@@ -32,6 +34,9 @@ public class StringGenerator extends MinMaxGenerator<String> {
             n = mini;
         } else {
             n = random.nextInt(maxi - mini) + mini;
+        }
+        if (step != 0) {
+            n -= (n - min) % step;
         }
 
         String res = generateString(random, n);

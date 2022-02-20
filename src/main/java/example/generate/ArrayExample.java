@@ -13,9 +13,7 @@ public class ArrayExample {
     }
 
     @Generate
-    public ArrayExample(
-        @Fill(10) @Range({1,3}) String[] array
-    ) {
+    public ArrayExample(@Fill(10) @Range({1, 3}) double[] array) {
         System.out.println(Arrays.toString(array));
     }
 

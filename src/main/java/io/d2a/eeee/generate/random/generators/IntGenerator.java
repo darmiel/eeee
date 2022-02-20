@@ -10,6 +10,7 @@ public class IntGenerator extends MinMaxGenerator<Integer> {
         final Random random,
         final double min,
         final double max,
+        final double step,
         final AnnotationProvider provider
     ) {
         final int mini = (int) min;
@@ -17,7 +18,11 @@ public class IntGenerator extends MinMaxGenerator<Integer> {
         if (mini == maxi) {
             return mini;
         }
-        return mini + random.nextInt(maxi - mini);
+        int n = mini + random.nextInt(maxi - mini);
+        if (step != 0) {
+            n -= (n - mini) % step;
+        }
+        return n;
     }
 
 }
