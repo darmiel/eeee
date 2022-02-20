@@ -5,6 +5,6 @@ import java.util.Random;
 
 public interface Generator<T> {
 
-    T generate(final Random random, final AnnotationProvider provider);
+    T generate(final Random random, final AnnotationProvider provider, final Class<T> clazz) throws Exception;
 
 }

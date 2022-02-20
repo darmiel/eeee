@@ -6,6 +6,7 @@ import io.d2a.eeee.annotation.annotations.Range;
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.generate.random.Generator;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
 import java.util.Random;
 
 public abstract class MinMaxGenerator<T> implements Generator<T> {
@@ -18,7 +19,7 @@ public abstract class MinMaxGenerator<T> implements Generator<T> {
     );
 
     @Override
-    public T generate(final Random random, final AnnotationProvider provider) {
+    public T generate(final Random random, final AnnotationProvider provider, final Class<T> clazz) {
         final Range range = provider.get(Range.class, DefaultAnnotations.DEFAULT_RANGE);
 
         final double min = Annotations.getRangeMin(range.value());

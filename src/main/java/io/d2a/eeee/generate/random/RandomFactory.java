@@ -38,7 +38,7 @@ public class RandomFactory {
         if (generator == null) {
             return fromGenerateConstructor(typeClass, injector, currentDepth, maxDepth);
         }
-        return generator.generate(RANDOM, provider);
+        return generator.generate(RANDOM, provider, typeClass);
     }
 
     public static <T> T generate(final Class<T> typeClass, final AnnotationProvider provider)
@@ -111,7 +111,7 @@ public class RandomFactory {
 
             // use parameter type generator or specified
             final Class<?> generator;
-            if (parameter.isAnnotationPresent(Use.class)) {
+            if (!parameter.getType().isArray() && parameter.isAnnotationPresent(Use.class)) {
                 generator = parameter.getAnnotation(Use.class).value();
             } else {
                 generator = parameter.getType();
