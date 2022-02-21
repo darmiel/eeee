@@ -1,7 +1,7 @@
 package io.d2a.eeee.annotation;
 
-import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.annotation.annotations.Default;
+import io.d2a.eeee.annotation.provider.AnnotationProvider;
 
 public class Annotations {
 
@@ -52,7 +52,7 @@ public class Annotations {
             return false;
         }
         if (step != 0) {
-            return input % step == 0;
+            return (input - min) % step == 0;
         }
         return true;
     }

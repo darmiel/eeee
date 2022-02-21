@@ -1,0 +1,39 @@
+site_name: eeee
+repo_url: https://github.com/darmiel/eeee
+repo_name: darmiel/eeee
+edit_uri: edit/main/docs/
+plugins:
+  - git-revision-date
+
+markdown_extensions:
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - footnotes
+  - tables
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+theme:
+  name: material
+  palette:
+    scheme: default
+    primary: black
+    accent: lime
+  features:
+    - navigation.sections
+    - navigation.expand
+    - toc.integrate
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+  - git-revision-date
