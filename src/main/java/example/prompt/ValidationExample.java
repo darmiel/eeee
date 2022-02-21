@@ -45,11 +45,16 @@ public class ValidationExample {
     }
 
     @Entrypoint
-    @ForceRun
     public void transform(
         @Prompt("Name") @Default("Daniel")
         @Transform({Type.REVERSE}) final String name) {
         System.out.println("!" + name + ", iH");
+    }
+
+    @ForceRun
+    @Entrypoint
+    public void chars(@Prompt("Char?") final char c) {
+        System.out.println(c);
     }
 
 }

@@ -4,6 +4,7 @@ import io.d2a.eeee.EntryMethod;
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.annotation.provider.EmptyAnnotationProvider;
 import io.d2a.eeee.wrapper.wrappers.BooleanWrapper;
+import io.d2a.eeee.wrapper.wrappers.CharWrapper;
 import io.d2a.eeee.wrapper.wrappers.DoubleWrapper;
 import io.d2a.eeee.wrapper.wrappers.IntegerWrapper;
 import io.d2a.eeee.wrapper.wrappers.ScannerWrapper;
@@ -36,6 +37,10 @@ public class Wrappers {
         final BooleanWrapper booleanWrapper = new BooleanWrapper();
         WRAPPERS.put(boolean.class, booleanWrapper);
         WRAPPERS.put(Boolean.class, booleanWrapper);
+
+        final CharWrapper charWrapper = new CharWrapper();
+        WRAPPERS.put(char.class, charWrapper);
+        WRAPPERS.put(Character.class, charWrapper);
     }
 
     @SuppressWarnings("unchecked")

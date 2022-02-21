@@ -65,8 +65,6 @@ public class NullChain<T> {
         return this.get() != null ? this.get() : def;
     }
 
-    ///
-
     public static <T> T yolo(final Supplier<T> supplier, final T def) {
         final T val = yolo(supplier);
         if (val == null) {

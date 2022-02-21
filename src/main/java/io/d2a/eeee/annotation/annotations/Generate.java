@@ -9,4 +9,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.PARAMETER, ElementType.CONSTRUCTOR})
 public @interface Generate {
 
+    String name() default "";
+
 }

@@ -8,13 +8,14 @@ import java.util.Arrays;
 
 public class ArrayExample {
 
-    public static void main(String[] args) throws Exception {
-        final ArrayExample arrayExample = RandomFactory.generate(ArrayExample.class);
+    @Generate
+    public ArrayExample(@Fill(5) @Range({'A', 'H'}) char[] chars) {
+        System.out.println(Arrays.toString(chars));
     }
 
-    @Generate
-    public ArrayExample(@Fill(10) @Range({1, 3}) double[] array) {
-        System.out.println(Arrays.toString(array));
+    public static void main(String[] args) throws Exception {
+        final ArrayExample[] arrayExamples = new ArrayExample[10];
+        RandomFactory.fillArrayRandom(arrayExamples);
     }
 
 }
