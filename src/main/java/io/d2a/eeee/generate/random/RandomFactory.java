@@ -1,11 +1,11 @@
 package io.d2a.eeee.generate.random;
 
 import io.d2a.eeee.annotation.annotations.Depth;
+import io.d2a.eeee.annotation.annotations.Generate;
+import io.d2a.eeee.annotation.annotations.Use;
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.annotation.provider.EmptyAnnotationProvider;
 import io.d2a.eeee.annotation.provider.PriorityAnnotationProvider;
-import io.d2a.eeee.annotation.annotations.Generate;
-import io.d2a.eeee.annotation.annotations.Use;
 import io.d2a.eeee.inject.Inject;
 import io.d2a.eeee.inject.Injector;
 import java.lang.reflect.Constructor;
@@ -28,6 +28,7 @@ public class RandomFactory {
      */
     public static <T> T generate(
         final Class<T> typeClass,
+        final String constructorName,
         final AnnotationProvider provider,
         final Injector injector,
         final Map<Class<?>, Integer> currentDepth,
@@ -36,20 +37,44 @@ public class RandomFactory {
         throws Exception {
         final Generator<T> generator = Generators.findGenerator(typeClass);
         if (generator == null) {
-            return fromGenerateConstructor(typeClass, injector, currentDepth, maxDepth);
+            return fromGenerateConstructor(
+                typeClass,
+                constructorName,
+                injector,
+                currentDepth,
+                maxDepth
+            );
         }
         return generator.generate(RANDOM, provider, typeClass);
     }
 
-    public static <T> T generate(final Class<T> typeClass, final AnnotationProvider provider)
-        throws Exception {
-        return generate(typeClass, provider, null, new HashMap<>(), new HashMap<>());
+    public static <T> T generate(
+        final Class<T> typeClass,
+        final String constructorName,
+        final AnnotationProvider provider
+    ) throws Exception {
+        return generate(
+            typeClass,
+            constructorName,
+            provider,
+            null,
+            new HashMap<>(),
+            new HashMap<>()
+        );
+    }
+
+    public static <T> T generate(
+        final Class<T> typeClass,
+        final String constructorName
+    ) throws Exception {
+        return generate(typeClass, constructorName, EmptyAnnotationProvider.DEFAULT);
     }
 
     public static <T> T generate(final Class<T> typeClass)
         throws Exception {
-        return generate(typeClass, EmptyAnnotationProvider.DEFAULT, null, new HashMap<>(),
-            new HashMap<>());
+        return generate(
+            typeClass, ""
+        );
     }
 
     /**
@@ -61,11 +86,17 @@ public class RandomFactory {
      * @return Constructor annotated with {@link Generate}
      * @throws NoSuchMethodException if no suitable constructor is found
      */
-    public static <T> Constructor<T> findGenerateConstructor(final Class<T> clazz)
-        throws NoSuchMethodException {
+    public static <T> Constructor<T> findGenerateConstructor(
+        final String name,
+        final Class<T> clazz
+    ) throws NoSuchMethodException {
 
         for (final Constructor<?> constructor : clazz.getDeclaredConstructors()) {
-            if (constructor.isAnnotationPresent(Generate.class)) {
+            if (!constructor.isAnnotationPresent(Generate.class)) {
+                continue;
+            }
+            final Generate generate = constructor.getAnnotation(Generate.class);
+            if (generate.value().equals(name) || (generate.value().equals("") && name == null)) {
                 return clazz.getDeclaredConstructor(constructor.getParameterTypes());
             }
         }
@@ -84,12 +115,13 @@ public class RandomFactory {
      */
     public static <T> T fromGenerateConstructor(
         final Class<T> clazz,
+        final String constructorName,
         final Injector injector,
 
         final Map<Class<?>, Integer> currentDepth,
         final Map<Class<?>, Integer> maxDepth
     ) throws Exception {
-        final Constructor<T> constructor = findGenerateConstructor(clazz);
+        final Constructor<T> constructor = findGenerateConstructor(constructorName, clazz);
         final List<Object> parameters = new ArrayList<>();
 
         for (final Parameter parameter : constructor.getParameters()) {
@@ -140,8 +172,11 @@ public class RandomFactory {
                 currentDepth.put(generator, current + 1);
             }
 
+            final Generate generate = parameter.getAnnotation(Generate.class);
+
             final Object val = generate(
                 generator,
+                generate != null ? generate.value() : null,
                 new PriorityAnnotationProvider(
                     parameter::getAnnotation,
                     constructor::getAnnotation
@@ -158,33 +193,60 @@ public class RandomFactory {
 
     public static <T> T fromGenerateConstructor(
         final Class<T> clazz,
-        final Injector injector) throws Exception {
-        return fromGenerateConstructor(clazz, injector, new HashMap<>(), new HashMap<>());
+        final String constructorName,
+        final Injector injector
+    ) throws Exception {
+        return fromGenerateConstructor(
+            clazz,
+            constructorName,
+            injector,
+            new HashMap<>(),
+            new HashMap<>()
+        );
     }
 
-    public static <T> T fromGenerateConstructor(final Class<T> clazz) throws Exception {
-        return fromGenerateConstructor(clazz, null);
+    public static <T> T fromGenerateConstructor(
+        final Class<T> clazz,
+        final String constructorName
+    ) throws Exception {
+        return fromGenerateConstructor(clazz, constructorName, null);
+    }
+
+    public static <T> T fromGenerateConstructor(
+        final Class<T> clazz
+    ) throws Exception {
+        return fromGenerateConstructor(clazz, "", null);
     }
 
     /**
      * Fills a specified array with random values using the {@link RandomFactory#fromGenerateConstructor(Class,
-     * Injector, Map, Map)} method.
+     * String, Injector, Map, Map)} method.
      *
      * @param array The array which should be filled
      * @param <T>   Type of array
      * @throws Exception The usual Java Reflect Error pile
      */
     @SuppressWarnings("unchecked")
-    public static <T> void fillArrayRandom(final T[] array, final Injector injector)
-        throws Exception {
+    public static <T> void fillArrayRandom(
+        final T[] array,
+        final String constructorName,
+        final Injector injector
+    ) throws Exception {
         final Class<T> clazz = (Class<T>) array.getClass().getComponentType();
         for (int i = 0; i < array.length; i++) {
-            array[i] = fromGenerateConstructor(clazz, injector);
+            array[i] = fromGenerateConstructor(clazz, constructorName, injector);
         }
     }
 
+    public static <T> void fillArrayRandom(
+        final T[] array,
+        final String constructorName
+    ) throws Exception {
+        fillArrayRandom(array, constructorName, null);
+    }
+
     public static <T> void fillArrayRandom(final T[] array) throws Exception {
-        fillArrayRandom(array, null);
+        fillArrayRandom(array, "", null);
     }
 
 }

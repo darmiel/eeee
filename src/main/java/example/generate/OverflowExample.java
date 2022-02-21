@@ -59,13 +59,13 @@ public class OverflowExample {
     public static void main(String[] args) throws Exception {
         {
             // throws nothing
-            final Person person = RandomFactory.generate(Person.class);
+            final Person person = RandomFactory.generate(Person.class, "");
             System.out.println(person);
         }
 
         {
             // throws StackOverflowException
-            final OverflowingPerson person = RandomFactory.generate(OverflowingPerson.class);
+            final OverflowingPerson person = RandomFactory.generate(OverflowingPerson.class, "");
             System.out.println(person);
         }
     }

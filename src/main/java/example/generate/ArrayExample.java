@@ -15,7 +15,7 @@ public class ArrayExample {
 
     public static void main(String[] args) throws Exception {
         final ArrayExample[] arrayExamples = new ArrayExample[10];
-        RandomFactory.fillArrayRandom(arrayExamples);
+        RandomFactory.fillArrayRandom(arrayExamples, "");
     }
 
 }
