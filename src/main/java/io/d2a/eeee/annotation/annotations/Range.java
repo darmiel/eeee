@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  * 3, 5, 7, 9)
  * <code>@Range(10)</code> numbers from 0 to 10
  */
-@Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE})
+@Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE, ElementType.CONSTRUCTOR})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Range {
 
