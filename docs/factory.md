@@ -17,8 +17,8 @@ public class Rectangle {
     @Prompt
     public Rectangle(
         @Prompt("Height") final int height,
-        @Prompt("Width")
-        ) {
+        @Prompt("Width") final int width
+    ) {
         this.height = height;
         this.width = width;
     }
@@ -35,5 +35,3 @@ public class App {
 
 }
 ```
-
----

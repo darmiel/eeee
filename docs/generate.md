@@ -8,7 +8,6 @@ the target class must be annotated with `@Generate`.
 **NOTE:** make sure all parameters can be generated.
 
 ```java
-// define person class
 public class Person {
 
     private final String name;
@@ -37,7 +36,7 @@ public class App {
 
 ### Customize generator
 
-The number ranges and string lengthes can be adjusted with `@Range`.
+The number ranges and string lengths can be adjusted with `@Range`.
 
 ```java
 class Person {

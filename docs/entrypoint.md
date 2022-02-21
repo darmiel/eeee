@@ -26,9 +26,9 @@ If you now start the program, invoking `Starter.start` in your main method, you 
 program you want to run:
 
 ```java
-public static void main(String[]args)throws Exception{
-    Starter.start(Application.class,args);
-    }
+public static void main(String[] args) throws Exception {
+    Starter.start(Application.class, args);
+}
 ```
 
 Console Output:
@@ -65,10 +65,11 @@ Default values can be specified using the `@Default` annotation.
 ```java
 @Entrypoint("Echo")
 public void echo(
-@Default("Nice") @Prompt("Echo") final String input
-    ){
+    @Default("Nice") @Prompt("Echo") 
+    final String input
+) {
     System.out.println("Echo! "+input);
-    }
+}
 ```
 
 Console-Output:
@@ -92,10 +93,10 @@ use the `@Range`-annotation. The `@Range`-annotation accepts 1 to 3 arguments:
 ```java
 @Entrypoint
 public void run(
-@Range({0, 100}) final int age
-    ){
+    @Range({0, 100}) final int age
+) {
     // ...
-    }
+}
 ```
 
 Console-Output:
@@ -123,11 +124,12 @@ choose from the following actions:
 ```java
 @Entrypoint
 public void run(
-@Prompt("Name")
-@Transform({Types.UPPER, Types.REVERSE}) final String name
-    ){
+    @Prompt("Name")
+    @Transform({Types.UPPER, Types.REVERSE}) 
+    final String name
+){
     System.out.println(name);
-    }
+}
 
 // input "Michael" will be transformed to "LEAHCIM"
 ```
@@ -138,11 +140,6 @@ If you want to use your own types as parameters, these types must implement the 
 interface:
 
 ```java
-import io.d2a.eeee.annotation.provider.AnnotationProvider;
-import io.d2a.eeee.generate.Factory;
-import io.d2a.eeee.wrapper.Wrapper;
-import java.util.Scanner;
-
 public class Rectangle implements Wrapper<Rectangle> {
 
     /**
@@ -164,27 +161,22 @@ Now the rectangle can be used as a parameter in an Entry method:
 
 ```java
 @Entrypoint
-public void run(@Prompt("Rect") Rectangle rect){
+public void run(@Prompt("Rect") Rectangle rect) {
     System.out.println(rect);
-    }
+}
 ```
 
 Console-Output:
 
-```java
-[int][0-]Height:12
-    [int][0-]Width:41
-
-    ---
-    Rectangle{height=12,width=41}
-    ---
 ```
-
-- See [example](https://github.com/darmiel/eeee/tree/main/src/main/java/example) for a full example.
--
-
-See [wrappers](https://github.com/darmiel/eeee/tree/main/src/main/java/io/d2a/eeee/wrapper/wrappers)
-for some predefined wrappers
+[int] [0-] Height:12
+[int] [0-] Width:41
 
 ---
+Rectangle{height=12,width=41}
+---
+```
 
+- See [example](https://github.com/darmiel/eeee/tree/main/src/main/java/example) for a full example. 
+- See [wrappers](https://github.com/darmiel/eeee/tree/main/src/main/java/io/d2a/eeee/wrapper/wrappers)
+for some predefined wrappers

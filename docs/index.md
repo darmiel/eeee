@@ -22,10 +22,9 @@ Below, you can find some quick starts for each module.
 
 ### Maven
 
-1. Add this repository to your `pom.xml`:
+1. Add the JitPack repository to your `pom.xml`:
 
 ```xml
-
 <repositories>
   <repository>
     <id>jitpack.io</id>
@@ -39,12 +38,34 @@ Below, you can find some quick starts for each module.
 [![](https://jitpack.io/v/darmiel/eeee.svg)](https://jitpack.io/#darmiel/eeee)
 
 ```xml
-
 <dependency>
   <groupId>com.github.darmiel</groupId>
   <artifactId>eeee</artifactId>
   <version>-SNAPSHOT</version>
 </dependency>
+```
+
+### Gradle
+
+1. Add the JitPack repository to your build file:
+
+```gradle
+allprojects {
+    repositories {
+         ...
+         maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+2. Add the `eeee`-dependency:
+
+[![](https://jitpack.io/v/darmiel/eeee.svg)](https://jitpack.io/#darmiel/eeee)
+
+```gradle
+dependencies {
+    implementation 'com.github.darmiel:eeee:Tag'
+}
 ```
 
 ---
