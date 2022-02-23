@@ -6,13 +6,9 @@ import io.d2a.eeee.annotation.annotations.Use;
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.annotation.provider.EmptyAnnotationProvider;
 import io.d2a.eeee.annotation.provider.PriorityAnnotationProvider;
-import io.d2a.eeee.inject.Inject;
 import io.d2a.eeee.inject.Injector;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Parameter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -122,25 +118,9 @@ public class RandomFactory {
         final Map<Class<?>, Integer> maxDepth
     ) throws Exception {
         final Constructor<T> constructor = findGenerateConstructor(constructorName, clazz);
-        final List<Object> parameters = new ArrayList<>();
 
-        for (final Parameter parameter : constructor.getParameters()) {
-
-            // inject value instead of generating?
-            if (parameter.isAnnotationPresent(Inject.class)) {
-                final Object val;
-                if (injector != null) {
-                    val = injector.find(
-                        parameter.getType(),
-                        parameter.getAnnotation(Inject.class).value()
-                    );
-                } else {
-                    val = null;
-                }
-                parameters.add(val);
-                continue;
-            }
-
+        // create class using injector
+        return injector.create(constructor, parameter -> {
             // use parameter type generator or specified
             final Class<?> generator;
             if (!parameter.getType().isArray() && parameter.isAnnotationPresent(Use.class)) {
@@ -151,30 +131,24 @@ public class RandomFactory {
 
             // check depth
             if (currentDepth != null && maxDepth != null) {
-
-                // annotation
                 final Depth depth = parameter.getAnnotation(Depth.class);
                 if (depth != null) {
-                    if (!currentDepth.containsKey(generator) && !maxDepth.containsKey(generator)) {
+                    if (!currentDepth.containsKey(generator)
+                        && !maxDepth.containsKey(generator)) {
                         currentDepth.put(generator, 0);
                         maxDepth.put(generator, depth.value());
                     }
                 }
-
                 final int current = currentDepth.getOrDefault(generator, 0);
                 final int max = maxDepth.getOrDefault(generator, Integer.MAX_VALUE);
-
                 if (current >= max) {
-                    parameters.add(null);
-                    continue;
+                    return null;
                 }
-
                 currentDepth.put(generator, current + 1);
             }
 
             final Generate generate = parameter.getAnnotation(Generate.class);
-
-            final Object val = generate(
+            return generate(
                 generator,
                 generate != null ? generate.value() : null,
                 new PriorityAnnotationProvider(
@@ -185,10 +159,7 @@ public class RandomFactory {
                 currentDepth,
                 maxDepth
             );
-
-            parameters.add(val);
-        }
-        return constructor.newInstance(parameters.toArray());
+        });
     }
 
     public static <T> T fromGenerateConstructor(
@@ -242,7 +213,7 @@ public class RandomFactory {
         final T[] array,
         final String constructorName
     ) throws Exception {
-        fillArrayRandom(array, constructorName, null);
+        fillArrayRandom(array, constructorName, Injector.EMPTY);
     }
 
     public static <T> void fillArrayRandom(final T[] array) throws Exception {

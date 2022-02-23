@@ -31,20 +31,7 @@ public class EntryMethod {
         final String prompt,
         final AnnotationProvider provider
     ) throws Exception {
-
-        Wrapper<?> wrapper = Wrappers.WRAPPERS.get(type);
-        if (wrapper == null) {
-            if (!Wrapper.class.isAssignableFrom(type)) {
-                throw new IllegalArgumentException("cannot find wrapper for parameter " +
-                    type.getSimpleName());
-            }
-            final Constructor<?> wrapperConstructor = type.getDeclaredConstructor();
-            wrapperConstructor.setAccessible(true);
-            wrapper = (Wrapper<?>) wrapperConstructor.newInstance();
-            Wrappers.WRAPPERS.put(type, wrapper);
-        }
-
-        // execute wrapper
+        final Wrapper<?> wrapper = Wrappers.findWrapper(type);
         return wrapper.wrap(scanner, prompt, provider);
     }
 

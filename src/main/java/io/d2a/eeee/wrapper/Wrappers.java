@@ -10,6 +10,8 @@ import io.d2a.eeee.wrapper.wrappers.IntegerWrapper;
 import io.d2a.eeee.wrapper.wrappers.ScannerWrapper;
 import io.d2a.eeee.wrapper.wrappers.ShortWrapper;
 import io.d2a.eeee.wrapper.wrappers.StringWrapper;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -64,6 +66,29 @@ public class Wrappers {
         final String prompt
     ) {
         return prompt(scanner, clazz, prompt, EmptyAnnotationProvider.DEFAULT);
+    }
+
+    public static Wrapper<?> findWrapper(final Class<?> type) throws
+        NoSuchMethodException,
+        InvocationTargetException,
+        InstantiationException,
+        IllegalAccessException {
+
+        Wrapper<?> wrapper = Wrappers.WRAPPERS.get(type);
+        if (wrapper == null) {
+            if (!Wrapper.class.isAssignableFrom(type)) {
+                throw new IllegalArgumentException(
+                    "cannot find wrapper for parameter " + type.getSimpleName()
+                );
+            }
+
+            final Constructor<?> wrapperConstructor = type.getDeclaredConstructor();
+            wrapperConstructor.setAccessible(true);
+            wrapper = (Wrapper<?>) wrapperConstructor.newInstance();
+            Wrappers.WRAPPERS.put(type, wrapper);
+        }
+
+        return wrapper;
     }
 
 }

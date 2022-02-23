@@ -3,13 +3,18 @@ package io.d2a.eeee.inject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Injector {
 
-    private BiMap<Class<?>, String, Object> dependencies = new BiMap<>();
+    public static final Injector EMPTY = new Injector();
+
+    private static final Logger logger = Logger.getLogger("Injector");
+    private final BiMap<Class<?>, String, Object> dependencies = new BiMap<>();
 
     public <T> Injector register(final Class<T> clazz, final T t, final String name) {
         this.dependencies.put(clazz, name, t);
@@ -28,25 +33,69 @@ public class Injector {
         return null;
     }
 
-    public void inject(final Object instance) throws IllegalAccessException {
+    public void injectFields(final Object instance) throws IllegalAccessException {
         for (final Field field : instance.getClass().getDeclaredFields()) {
+            // ignore final fields
+            if (Modifier.isFinal(field.getModifiers())) {
+                continue;
+            }
+            // only inject into injectable fields
             if (!field.isAnnotationPresent(Inject.class)) {
                 continue;
             }
             field.setAccessible(true);
 
-            final Inject inject = field.getAnnotation(Inject.class);
-
             // find instance of injected field
+            final Inject inject = field.getAnnotation(Inject.class);
             final Object value = this.find(field.getType(), inject.value());
             if (value == null) {
-                System.out.println("ERROR: Injected value is null");
-                return;
+                throw new NullPointerException("injected value was null");
             }
 
-            System.out.printf("[Injector] injected field %s%n", field.getName());
+            logger.info("Injected field " + field.getName());
             field.set(instance, value);
         }
+    }
+
+    public <T> T create(final Constructor<T> constructor, final InjectParameterSupplier supplier)
+        throws Exception {
+        final List<Object> parameters = new ArrayList<>();
+        for (final Parameter parameter : constructor.getParameters()) {
+            final Inject inject = parameter.getAnnotation(Inject.class);
+
+            final Object obj;
+            if (inject == null) {
+                obj = supplier != null ? supplier.supply(parameter) : null;
+            } else {
+                obj = this.find(parameter.getType(), inject.value());
+            }
+            parameters.add(obj);
+        }
+
+        final T instance = constructor.newInstance(parameters.toArray());
+
+        // inject field values
+        this.injectFields(instance);
+
+        return instance;
+    }
+
+    public <T> T create(final Class<T> clazz) throws Exception {
+        return create(clazz, null);
+    }
+    
+    public <T> T create(final Class<T> clazz, final InjectParameterSupplier supplier)
+        throws Exception {
+
+        Constructor<T> constructor;
+        try {
+            constructor = this.findInjectableConstructor(clazz);
+        } catch (NoSuchMethodException nsmex) {
+            constructor = clazz.getDeclaredConstructor();
+        }
+        constructor.setAccessible(true);
+
+        return this.create(constructor, supplier);
     }
 
     private <T> Constructor<T> findInjectableConstructor(final Class<T> clazz)
@@ -59,40 +108,6 @@ public class Injector {
             }
         }
         throw new NoSuchMethodException("injectable constructor not found");
-    }
-
-    public <T> T create(final Class<T> clazz) throws
-        NoSuchMethodException,
-        InvocationTargetException,
-        InstantiationException,
-        IllegalAccessException {
-
-        Constructor<T> constructor; // = this.findInjectableConstructor(clazz);
-
-        try {
-            constructor = this.findInjectableConstructor(clazz);
-        } catch (NoSuchMethodException nsmex) {
-            constructor = clazz.getDeclaredConstructor();
-        }
-
-        constructor.setAccessible(true);
-
-        final List<Object> parameters = new ArrayList<>();
-        for (final Parameter parameter : constructor.getParameters()) {
-            final Inject inject = parameter.getAnnotation(Inject.class);
-            if (inject == null) {
-                parameters.add(null);
-                continue;
-            }
-            parameters.add(this.find(parameter.getType(), inject.value()));
-        }
-
-        final T instance = constructor.newInstance(parameters.toArray());
-
-        // inject field values
-        this.inject(instance);
-
-        return instance;
     }
 
 }

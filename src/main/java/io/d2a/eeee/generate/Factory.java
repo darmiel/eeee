@@ -102,7 +102,7 @@ public class Factory {
 
         // inject fields
         if (injector != null) {
-            injector.inject(t);
+            injector.injectFields(t);
         }
 
         // get all prompt values and request
