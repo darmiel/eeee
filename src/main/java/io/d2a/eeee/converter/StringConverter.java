@@ -16,7 +16,7 @@ public class StringConverter {
      */
     public static String toPowString(int exp) {
         if (exp == 0){
-            return String.valueOf(POWERS[10]);
+            return String.valueOf(POWERS[0]);
         }
         if (exp < 0){
             return POWERS[10] + toPowString(exp * -1);
