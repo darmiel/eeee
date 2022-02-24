@@ -1,12 +1,36 @@
 package io.d2a.eeee.converter;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class StringConverterTest extends TestCase {
+import org.junit.Test;
 
-    public void testToPowString() {
-        assertEquals("¹²³", StringConverter.toPowString(123));
-        assertEquals("⁰", StringConverter.toPowString(0));
-        assertEquals("⁻¹²³", StringConverter.toPowString(-123));
+public class StringConverterTest {
+
+    private static class TestCase {
+
+        private final String expected;
+        private final int value;
+
+        public TestCase(final String expected, final int value) {
+            this.expected = expected;
+            this.value = value;
+        }
     }
+
+    @Test
+    public void testToPowString() {
+        final TestCase[] cases = {
+            new TestCase("¹²³", 123),
+            new TestCase("⁻¹²³", -123),
+            new TestCase("¹", 1),
+            new TestCase("⁻¹", -1),
+            new TestCase("⁰", 0),
+            new TestCase("⁰", -0),
+        };
+
+        for (final TestCase testCase : cases) {
+            assertEquals(testCase.expected, StringConverter.toPowString(testCase.value));
+        }
+    }
+
 }
