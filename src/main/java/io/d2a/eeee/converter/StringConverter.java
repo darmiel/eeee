@@ -3,7 +3,7 @@ package io.d2a.eeee.converter;
 public class StringConverter {
 
     public static final char[] POWERS =
-        "⁰¹²³⁴⁵⁶⁷⁸⁹".toCharArray();
+        "⁰¹²³⁴⁵⁶⁷⁸⁹⁻".toCharArray();
 
     /**
      * Converts an integer to the power representation:
@@ -15,6 +15,12 @@ public class StringConverter {
      * @return {exp} in power representation
      */
     public static String toPowString(int exp) {
+        if (exp == 0){
+            return String.valueOf(POWERS[10]);
+        }
+        if (exp < 0){
+            return POWERS[10] + toPowString(exp * -1);
+        }
         final StringBuilder bob = new StringBuilder();
         while (exp > 0) {
             bob.insert(0, POWERS[exp % 10]);

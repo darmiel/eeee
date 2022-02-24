@@ -6,7 +6,7 @@ public class StringConverterTest extends TestCase {
 
     public void testToPowString() {
         assertEquals("¹²³", StringConverter.toPowString(123));
-        assertEquals("", StringConverter.toPowString(0));
-        assertEquals("", StringConverter.toPowString(-1));
+        assertEquals("⁰", StringConverter.toPowString(0));
+        assertEquals("⁻¹²³", StringConverter.toPowString(-123));
     }
 }
