@@ -5,13 +5,33 @@ import io.d2a.eeee.annotation.annotations.ForceRun;
 import io.d2a.eeee.inject.Injector;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
 public class Starter {
+
+    public static void startUnsafe(final Class<?> clazz, final String[] args) {
+        try {
+            start(clazz, args);
+        } catch (final Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void byCaller() {
+        final StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+        final StackTraceElement last = elements[elements.length - 1];
+        final String className = last.getClassName();
+
+        // find class by name
+        try {
+            final Class<?> clazz = Class.forName(className);
+            start(clazz);
+        } catch (final Exception exception) {
+            exception.printStackTrace();
+        }
+    }
 
     public static void start(
         final Class<?> clazz

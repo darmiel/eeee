@@ -29,60 +29,62 @@ public class EntryMethod {
         // create starter class using injector
         final Object instance = injector.create(this.clazz);
 
-        final List<Object> parameters = new ArrayList<>();
+        do {
+            final List<Object> parameters = new ArrayList<>();
 
-        // get parameters from method
-        if (this.entrypoint.verbose()) {
-            System.out.printf("[Runner] Requesting parameters (%s) ...%n", typeStr);
-        }
-
-        // request parameters
-        if (this.method.getParameterCount() > 0) {
+            // get parameters from method
             if (this.entrypoint.verbose()) {
-                System.out.println();
+                System.out.printf("[Runner] Requesting parameters (%s) ...%n", typeStr);
             }
 
-            for (final Parameter parameter : this.method.getParameters()) {
-                final String prompt;
-                if (parameter.isAnnotationPresent(Prompt.class)) {
-                    prompt = parameter.getAnnotation(Prompt.class).value();
-                } else {
-                    prompt = parameter.getName();
+            // request parameters
+            if (this.method.getParameterCount() > 0) {
+                if (this.entrypoint.verbose()) {
+                    System.out.println();
                 }
 
-                final Object val = Wrappers.requestValue(
-                    scanner,
-                    parameter.getType(),
-                    prompt,
-                    new PriorityAnnotationProvider(
-                        method::getAnnotation,
-                        parameter::getAnnotation
-                    )
-                );
+                for (final Parameter parameter : this.method.getParameters()) {
+                    final String prompt;
+                    if (parameter.isAnnotationPresent(Prompt.class)) {
+                        prompt = parameter.getAnnotation(Prompt.class).value();
+                    } else {
+                        prompt = parameter.getName();
+                    }
 
-                // execute wrapper
-                parameters.add(val);
+                    final Object val = Wrappers.requestValue(
+                        scanner,
+                        parameter.getType(),
+                        prompt,
+                        new PriorityAnnotationProvider(
+                            method::getAnnotation,
+                            parameter::getAnnotation
+                        )
+                    );
+
+                    // execute wrapper
+                    parameters.add(val);
+                }
             }
-        }
-        System.out.println();
+            System.out.println();
 
-        if (this.entrypoint.verbose()) {
-            // invoke method
-            System.out.printf("[Runner] Invoking %s@%s w/ (%s)...%n",
-                method.getName(), clazz.getSimpleName(), typeStr);
-        }
+            if (this.entrypoint.verbose()) {
+                // invoke method
+                System.out.printf("[Runner] Invoking %s@%s w/ (%s)...%n",
+                    method.getName(), clazz.getSimpleName(), typeStr);
+            }
 
-        System.out.println("---");
+            System.out.println("---");
 
-        final long timeStart = System.currentTimeMillis();
-        this.method.invoke(instance, parameters.toArray());
-        final long timeEnd = System.currentTimeMillis();
+            final long timeStart = System.currentTimeMillis();
+            this.method.invoke(instance, parameters.toArray());
+            final long timeEnd = System.currentTimeMillis();
 
-        System.out.println("---");
+            System.out.println("---");
 
-        if (this.entrypoint.stopwatch()) {
-            System.out.printf("Execution complete! Took approx. %dms.%n", timeEnd - timeStart);
-        }
+            if (this.entrypoint.stopwatch()) {
+                System.out.printf("Execution complete! Took approx. %dms.%n", timeEnd - timeStart);
+            }
+        } while (this.entrypoint.loop());
     }
 
 }
