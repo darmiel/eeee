@@ -93,6 +93,8 @@ public class PromptFactory {
         final T t = createClassByConstructor(scanner, constructor, injector);
 
         // get all prompt values and request
+        // this should be deprecated in the future
+        // bc why on earth you don't want to use the constructor?
         for (final Field field : clazz.getDeclaredFields()) {
             // ignore final fields
             if (Modifier.isFinal(field.getModifiers())) {

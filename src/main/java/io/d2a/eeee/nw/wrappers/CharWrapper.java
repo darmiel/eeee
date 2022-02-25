@@ -12,24 +12,24 @@ import io.d2a.eeee.nw.display.StackPromptDisplay;
 import io.d2a.eeee.nw.exception.ValidateException;
 import io.d2a.eeee.nw.exception.WrapException;
 
-public class DoubleWrapper implements PromptWrapper<Double>, Validate<Double> {
+public class CharWrapper implements PromptWrapper<Character>, Validate<Character> {
 
     @Override
-    public Double wrap(final String input, final WrapContext ctx) throws Exception {
+    public Character wrap(final String input, final WrapContext ctx) throws Exception {
         if (input.trim().isEmpty()) {
             throw WrapException.INPUT_EMPTY;
         }
-        return Double.parseDouble(input);
+        return input.charAt(0);
     }
 
     @Override
-    public void check(final Double input, final ValidateContext ctx) throws ValidateException {
+    public void check(final Character input, final ValidateContext ctx) throws ValidateException {
         final double[] range = Annotations.getRange(ctx.a(Range.class));
         Annotations.checkRange(input, range);
     }
 
     @Override
-    // [double] [1.0-12.4] Hello [1.0] >
+    // [Character] [1.0-12.4] Hello [1.0] >
     public PromptDisplay prompt(final WrapContext ctx) {
         return new StackPromptDisplay(
             Components.TYPE,

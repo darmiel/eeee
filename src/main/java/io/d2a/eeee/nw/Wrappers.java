@@ -5,8 +5,12 @@ import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.nw.exception.ValidateException;
 import io.d2a.eeee.nw.exception.WrapException.Action;
 import io.d2a.eeee.nw.wrappers.ArrayWrapper;
+import io.d2a.eeee.nw.wrappers.BoolWrapper;
+import io.d2a.eeee.nw.wrappers.CharWrapper;
 import io.d2a.eeee.nw.wrappers.DoubleWrapper;
 import io.d2a.eeee.nw.wrappers.IntWrapper;
+import io.d2a.eeee.nw.wrappers.ScannerWrapper;
+import io.d2a.eeee.nw.wrappers.ShortWrapper;
 import io.d2a.eeee.nw.wrappers.StringWrapper;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
@@ -20,17 +24,22 @@ public class Wrappers {
     private static final Map<Class<?>, Wrapper<?>> WRAPPERS = new HashMap<>();
 
     static {
-        WRAPPERS.put(Array.class, new ArrayWrapper());
+        // register wrappers below 👇
+        register(new ArrayWrapper(), Array.class);
+        register(new StringWrapper(), String.class);
+        register(new ScannerWrapper(), Scanner.class);
 
-        final DoubleWrapper doubleWrapper = new DoubleWrapper();
-        WRAPPERS.put(Double.class, doubleWrapper);
-        WRAPPERS.put(double.class, doubleWrapper);
+        register(new DoubleWrapper(), Double.class, double.class);
+        register(new IntWrapper(), Integer.class, int.class);
+        register(new ShortWrapper(), Short.class, short.class);
+        register(new CharWrapper(), Character.class, char.class);
+        register(new BoolWrapper(), Boolean.class, boolean.class);
+    }
 
-        final IntWrapper intWrapper = new IntWrapper();
-        WRAPPERS.put(Integer.class, intWrapper);
-        WRAPPERS.put(int.class, intWrapper);
-
-        WRAPPERS.put(String.class, new StringWrapper());
+    private static void register(final Wrapper<?> wrapper, final Class<?>... types) {
+        for (final Class<?> type : types) {
+            WRAPPERS.put(type, wrapper);
+        }
     }
 
     public static Wrapper<?> findWrapper(final Class<?> type) throws Exception {

@@ -6,19 +6,18 @@ import io.d2a.eeee.nw.PromptWrapper;
 import io.d2a.eeee.nw.Validate;
 import io.d2a.eeee.nw.ValidateContext;
 import io.d2a.eeee.nw.WrapContext;
+import io.d2a.eeee.nw.display.Components;
+import io.d2a.eeee.nw.display.PromptDisplay;
+import io.d2a.eeee.nw.display.StackPromptDisplay;
 import io.d2a.eeee.nw.exception.ValidateException;
 import io.d2a.eeee.nw.exception.WrapException;
-import io.d2a.eeee.nw.exception.WrapException.Action;
-import io.d2a.eeee.nw.display.Components;
-import io.d2a.eeee.nw.display.StackPromptDisplay;
-import io.d2a.eeee.nw.display.PromptDisplay;
 
 public class IntWrapper implements PromptWrapper<Integer>, Validate<Integer> {
 
     @Override
     public Integer wrap(final String input, final WrapContext ctx) throws Exception {
-        if (input.trim().length() == 0) {
-            throw new WrapException("input was empty", Action.RETRY);
+        if (input.trim().isEmpty()) {
+            throw WrapException.INPUT_EMPTY;
         }
         return Integer.parseInt(input);
     }

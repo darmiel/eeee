@@ -2,9 +2,13 @@ package io.d2a.eeee.nw.exception;
 
 public class WrapException extends Exception {
 
+    // predefined
+    public static final WrapException INPUT_EMPTY = new WrapException("input was empty", Action.RETRY);
+
+
     public enum Action {
         RETRY,
-        EXIT;
+        EXIT
     }
 
     private final Action action;

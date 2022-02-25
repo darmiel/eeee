@@ -3,6 +3,7 @@ package example.generate;
 import io.d2a.eeee.Starter;
 import io.d2a.eeee.annotation.annotations.Entrypoint;
 import io.d2a.eeee.annotation.annotations.Prompt;
+import io.d2a.eeee.annotation.annotations.Range;
 import io.d2a.eeee.generate.prompt.PromptFactory;
 import java.util.Scanner;
 
@@ -13,19 +14,22 @@ public class FactoryExample {
     }
 
     @Entrypoint
-    public void a(Scanner scanner) throws Exception {
+    public void a(final Scanner scanner) throws Exception {
         System.out.println(PromptFactory.createClass(scanner, Person.class));
     }
 
     public static class Person {
 
-        @Prompt()
-        private String name;
-        @Prompt()
-        private int age;
+        private final String name;
+        private final int age;
 
-        private Person() {
-
+        @Prompt
+        private Person(
+            @Prompt("Name") final String name,
+            @Prompt("Age") @Range({0, 100}) final int age
+        ) {
+            this.name = name;
+            this.age = age;
         }
 
         @Override
