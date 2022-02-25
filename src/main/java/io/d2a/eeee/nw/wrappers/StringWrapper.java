@@ -1,6 +1,7 @@
 package io.d2a.eeee.nw.wrappers;
 
 import io.d2a.eeee.annotation.Annotations;
+import io.d2a.eeee.annotation.annotations.Pattern;
 import io.d2a.eeee.annotation.annotations.Range;
 import io.d2a.eeee.annotation.annotations.Transform;
 import io.d2a.eeee.annotation.annotations.Transform.Type;
@@ -8,16 +9,16 @@ import io.d2a.eeee.nw.Validate;
 import io.d2a.eeee.nw.ValidateContext;
 import io.d2a.eeee.nw.WrapContext;
 import io.d2a.eeee.nw.Wrapper;
-import io.d2a.eeee.nw.display.Component;
 import io.d2a.eeee.nw.display.Components;
 import io.d2a.eeee.nw.display.PromptDisplay;
 import io.d2a.eeee.nw.display.StackPromptDisplay;
 import io.d2a.eeee.nw.exception.ValidateException;
+import io.d2a.eeee.nw.exception.WrapException.Action;
 
 public class StringWrapper implements Wrapper<String>, Validate<String> {
 
     @Override
-    public String wrap(final String input, final WrapContext ctx) throws Exception {
+    public String wrap(final String input, final WrapContext ctx) {
         final Transform transform = ctx.a(Transform.class);
 
         String result = input;
@@ -34,6 +35,14 @@ public class StringWrapper implements Wrapper<String>, Validate<String> {
     public PromptDisplay prompt(final WrapContext ctx) {
         return new StackPromptDisplay(
             Components.TYPE,
+            c -> {
+                // pattern
+                final Pattern pattern = c.getProvider().get(Pattern.class);
+                if (pattern == null) {
+                    return null;
+                }
+                return String.format("/%s/", pattern.value());
+            },
             Components.RANGE_INT,
             Components.PROMPT,
             Components.DEFAULT
@@ -42,8 +51,18 @@ public class StringWrapper implements Wrapper<String>, Validate<String> {
 
     @Override
     public void check(final String input, final ValidateContext ctx) throws ValidateException {
+        // check range
         final double[] range = Annotations.getRange(ctx.a(Range.class));
         Annotations.checkRange(input.length(), range);
+
+        // check pattern
+        final Pattern pattern = ctx.a(Pattern.class);
+        if (pattern != null && !input.matches(pattern.value())) {
+            throw new ValidateException(
+                "string doesn't match pattern: " + pattern.value(),
+                Action.RETRY
+            );
+        }
     }
 
 }

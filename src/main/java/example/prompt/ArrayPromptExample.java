@@ -2,6 +2,7 @@ package example.prompt;
 
 import io.d2a.eeee.Starter;
 import io.d2a.eeee.annotation.annotations.Entrypoint;
+import io.d2a.eeee.annotation.annotations.Pattern;
 import io.d2a.eeee.annotation.annotations.Prompt;
 import io.d2a.eeee.annotation.annotations.Range;
 import io.d2a.eeee.annotation.annotations.Split;
@@ -15,7 +16,7 @@ public class ArrayPromptExample {
 
     @Entrypoint
     public void run(
-        @Prompt("Personen") @Split(",") @Range({2, 3})
+        @Prompt("Personen") @Split(",") @Range({2, 3}) @Pattern("^[A-Ha-h]$")
         final String[] persons
     ) {
         System.out.println(Arrays.toString(persons));

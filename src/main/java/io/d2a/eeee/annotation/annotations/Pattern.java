@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.PARAMETER, ElementType.CONSTRUCTOR})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Split {
+public @interface Pattern {
 
     String value();
 
