@@ -3,7 +3,7 @@ package example.generate;
 import io.d2a.eeee.Starter;
 import io.d2a.eeee.annotation.annotations.Entrypoint;
 import io.d2a.eeee.annotation.annotations.Prompt;
-import io.d2a.eeee.generate.Factory;
+import io.d2a.eeee.generate.prompt.PromptFactory;
 import java.util.Scanner;
 
 public class FactoryExample {
@@ -14,7 +14,7 @@ public class FactoryExample {
 
     @Entrypoint
     public void a(Scanner scanner) throws Exception {
-        System.out.println(Factory.createClass(scanner, Person.class));
+        System.out.println(PromptFactory.createClass(scanner, Person.class));
     }
 
     public static class Person {

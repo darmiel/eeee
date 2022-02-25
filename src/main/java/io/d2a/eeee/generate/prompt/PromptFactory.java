@@ -1,6 +1,5 @@
-package io.d2a.eeee.generate;
+package io.d2a.eeee.generate.prompt;
 
-import io.d2a.eeee.EntryMethod;
 import io.d2a.eeee.annotation.annotations.Prompt;
 import io.d2a.eeee.annotation.annotations.Use;
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
@@ -9,15 +8,13 @@ import io.d2a.eeee.inject.Injector;
 import io.d2a.eeee.nw.Wrappers;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Parameter;
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Modifier;
 import java.util.Scanner;
 
-public class Factory {
+public class PromptFactory {
 
     public static <T> T createClass(final Scanner scanner, final Class<T> clazz) throws Exception {
-        return createClass(scanner, clazz, null);
+        return createClass(scanner, clazz, Injector.EMPTY);
     }
 
     private static <T> Constructor<T> findConstructor(final Class<T> clazz)
@@ -75,19 +72,13 @@ public class Factory {
         final Constructor<T> constructor,
         final Injector injector
     ) throws Exception {
-        final List<Object> parameters = new ArrayList<>();
-
-        for (final Parameter parameter : constructor.getParameters()) {
-            parameters.add(createSingleObject(
-                scanner,
-                parameter::getAnnotation,
-                parameter.getName(),
-                parameter.getType(),
-                injector
-            ));
-        }
-
-        return constructor.newInstance(parameters.toArray());
+        return injector.create(constructor, parameter -> createSingleObject(
+            scanner,
+            parameter::getAnnotation,
+            parameter.getName(),
+            parameter.getType(),
+            injector
+        ));
     }
 
     public static <T> T createClass(
@@ -101,27 +92,24 @@ public class Factory {
 
         final T t = createClassByConstructor(scanner, constructor, injector);
 
-        // inject fields
-        if (injector != null) {
-            injector.injectFields(t);
-        }
-
         // get all prompt values and request
         for (final Field field : clazz.getDeclaredFields()) {
+            // ignore final fields
+            if (Modifier.isFinal(field.getModifiers())) {
+                continue;
+            }
             if (!field.isAnnotationPresent(Prompt.class)) {
                 continue;
             }
             field.setAccessible(true);
 
-            final Object val = createSingleObject(
+            field.set(t, createSingleObject(
                 scanner,
                 field::getAnnotation,
                 field.getName(),
                 field.getType(),
                 injector
-            );
-
-            field.set(t, val);
+            ));
         }
 
         return t;

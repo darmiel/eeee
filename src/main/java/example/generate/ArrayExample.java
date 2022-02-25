@@ -23,7 +23,7 @@ public class ArrayExample {
         final ArrayExample[] arrayExamples = new ArrayExample[10];
 
         System.out.println("Injecting");
-        RandomFactory.fillArrayRandom(arrayExamples, "", injector);
+        RandomFactory.fill(arrayExamples, "", injector);
     }
 
 }

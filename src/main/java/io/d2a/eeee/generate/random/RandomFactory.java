@@ -82,7 +82,7 @@ public class RandomFactory {
      * @return Constructor annotated with {@link Generate}
      * @throws NoSuchMethodException if no suitable constructor is found
      */
-    public static <T> Constructor<T> findGenerateConstructor(
+    private static <T> Constructor<T> findGenerateConstructor(
         final String name,
         final Class<T> clazz
     ) throws NoSuchMethodException {
@@ -180,13 +180,13 @@ public class RandomFactory {
         final Class<T> clazz,
         final String constructorName
     ) throws Exception {
-        return fromGenerateConstructor(clazz, constructorName, null);
+        return fromGenerateConstructor(clazz, constructorName, Injector.EMPTY);
     }
 
     public static <T> T fromGenerateConstructor(
         final Class<T> clazz
     ) throws Exception {
-        return fromGenerateConstructor(clazz, "", null);
+        return fromGenerateConstructor(clazz, "", Injector.EMPTY);
     }
 
     /**
@@ -198,7 +198,7 @@ public class RandomFactory {
      * @throws Exception The usual Java Reflect Error pile
      */
     @SuppressWarnings("unchecked")
-    public static <T> void fillArrayRandom(
+    public static <T> void fill(
         final T[] array,
         final String constructorName,
         final Injector injector
@@ -209,15 +209,15 @@ public class RandomFactory {
         }
     }
 
-    public static <T> void fillArrayRandom(
+    public static <T> void fill(
         final T[] array,
         final String constructorName
     ) throws Exception {
-        fillArrayRandom(array, constructorName, Injector.EMPTY);
+        fill(array, constructorName, Injector.EMPTY);
     }
 
-    public static <T> void fillArrayRandom(final T[] array) throws Exception {
-        fillArrayRandom(array, "", null);
+    public static <T> void fill(final T[] array) throws Exception {
+        fill(array, "", null);
     }
 
 }
