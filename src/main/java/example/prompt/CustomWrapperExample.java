@@ -3,9 +3,13 @@ package example.prompt;
 import io.d2a.eeee.Starter;
 import io.d2a.eeee.annotation.annotations.Entrypoint;
 import io.d2a.eeee.annotation.annotations.Prompt;
-import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.generate.Factory;
-import io.d2a.eeee.wrapper.Wrapper;
+import io.d2a.eeee.nw.WrapContext;
+import io.d2a.eeee.nw.Wrapper;
+import io.d2a.eeee.nw.display.Component;
+import io.d2a.eeee.nw.display.Components;
+import io.d2a.eeee.nw.display.PromptDisplay;
+import io.d2a.eeee.nw.display.StackPromptDisplay;
 import java.util.Scanner;
 
 public class CustomWrapperExample {
@@ -30,12 +34,17 @@ public class CustomWrapperExample {
         }
 
         @Override
-        public Rectangle wrap(
-            final Scanner scanner,
-            final String prompt,
-            final AnnotationProvider provider
-        ) throws Exception {
-            return Factory.createClass(scanner, Rectangle.class);
+        public Rectangle wrap(final String input, final WrapContext ctx) throws Exception {
+            return Factory.createClass(new Scanner(System.in), Rectangle.class);
+        }
+
+        @Override
+        public PromptDisplay prompt(final WrapContext ctx) {
+            return new StackPromptDisplay(
+                Components.TYPE,
+                Components.PROMPT,
+                Components.DEFAULT
+            );
         }
     }
 

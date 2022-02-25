@@ -5,6 +5,8 @@ import io.d2a.eeee.annotation.annotations.ForceRun;
 import io.d2a.eeee.inject.Injector;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
@@ -59,6 +61,12 @@ public class Starter {
             System.out.println("Error: cannot find entrypoint in class.");
             return;
         }
+
+        // order list by method name
+        methods.sort((o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(
+            o1.method.getName(),
+            o2.method.getName()
+        ));
 
         // auto select first method if only one method exists in that class
         EntryMethod config = getForcedConfig(methods);

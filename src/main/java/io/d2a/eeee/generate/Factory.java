@@ -6,6 +6,7 @@ import io.d2a.eeee.annotation.annotations.Use;
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.inject.Inject;
 import io.d2a.eeee.inject.Injector;
+import io.d2a.eeee.nw.Wrappers;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
@@ -31,14 +32,14 @@ public class Factory {
         return clazz.getDeclaredConstructor();
     }
 
-    private static Object createObject(
+    private static Object createSingleObject(
         final Scanner scanner,
         final AnnotationProvider provider,
         final String name,
         final Class<?> objType,
         final Injector injector
     ) throws Exception {
-
+        // can this value be injected?
         final Inject inject = provider.get(Inject.class);
         if (inject != null) {
             return injector.find(objType, inject.value());
@@ -61,7 +62,7 @@ public class Factory {
         }
 
         // request value
-        return EntryMethod.promptValue(
+        return Wrappers.requestValue(
             scanner,
             type,
             displayPrompt,
@@ -77,7 +78,7 @@ public class Factory {
         final List<Object> parameters = new ArrayList<>();
 
         for (final Parameter parameter : constructor.getParameters()) {
-            parameters.add(createObject(
+            parameters.add(createSingleObject(
                 scanner,
                 parameter::getAnnotation,
                 parameter.getName(),
@@ -112,7 +113,7 @@ public class Factory {
             }
             field.setAccessible(true);
 
-            final Object val = createObject(
+            final Object val = createSingleObject(
                 scanner,
                 field::getAnnotation,
                 field.getName(),

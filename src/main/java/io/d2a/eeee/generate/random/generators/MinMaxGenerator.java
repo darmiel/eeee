@@ -22,16 +22,9 @@ public abstract class MinMaxGenerator<T> implements Generator<T> {
     @Override
     public T generate(final Random random, final AnnotationProvider provider, final Class<T> clazz) {
         final Range range = provider.get(Range.class, DefaultAnnotations.DEFAULT_RANGE);
+        final double[] ranges = Annotations.getRange(range);
 
-        final double min = Annotations.getRangeMin(range.value());
-        final double step = Annotations.getRangeStep(range.value());
-        double max = Annotations.getRangeMax(range.value());
-
-        if (max < min) {
-            max += min;
-        }
-
-        return this.generate(random, min, max + 1, step, provider);
+        return this.generate(random, ranges[0], ranges[1] + 1, ranges[2], provider);
     }
 
 }
