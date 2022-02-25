@@ -5,14 +5,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+@Target({ElementType.PARAMETER, ElementType.CONSTRUCTOR})
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Entrypoint {
+public @interface Pattern {
 
-    String value() default "Default";
-
-    boolean verbose() default false;
-
-    boolean stopwatch() default false;
+    String value();
 
 }

@@ -4,6 +4,7 @@ import io.d2a.eeee.Starter;
 import io.d2a.eeee.annotation.annotations.Default;
 import io.d2a.eeee.annotation.annotations.Entrypoint;
 import io.d2a.eeee.annotation.annotations.ForceRun;
+import io.d2a.eeee.annotation.annotations.Pattern;
 import io.d2a.eeee.annotation.annotations.Prompt;
 import io.d2a.eeee.annotation.annotations.Range;
 import io.d2a.eeee.annotation.annotations.Transform;
@@ -51,10 +52,16 @@ public class ValidationExample {
         System.out.println("!" + name + ", iH");
     }
 
-    @ForceRun
     @Entrypoint
     public void chars(@Prompt("Char?") final char c) {
         System.out.println(c);
+    }
+
+    @Entrypoint
+    public void stringPattern(
+        @Prompt("Name") @Pattern("^[a-hA-H]+$") final String name
+    ) {
+        System.out.printf("Hi, %s!%n", name);
     }
 
 }

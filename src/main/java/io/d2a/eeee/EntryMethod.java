@@ -1,12 +1,10 @@
 package io.d2a.eeee;
 
-import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.annotation.annotations.Entrypoint;
 import io.d2a.eeee.annotation.annotations.Prompt;
+import io.d2a.eeee.annotation.provider.PriorityAnnotationProvider;
 import io.d2a.eeee.inject.Injector;
-import io.d2a.eeee.wrapper.Wrapper;
-import io.d2a.eeee.wrapper.Wrappers;
-import java.lang.reflect.Constructor;
+import io.d2a.eeee.nw.Wrappers;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
@@ -23,16 +21,6 @@ public class EntryMethod {
         this.method = method;
         this.entrypoint = entrypoint;
         this.clazz = clazz;
-    }
-
-    public static Object promptValue(
-        final Scanner scanner,
-        final Class<?> type,
-        final String prompt,
-        final AnnotationProvider provider
-    ) throws Exception {
-        final Wrapper<?> wrapper = Wrappers.findWrapper(type);
-        return wrapper.wrap(scanner, prompt, provider);
     }
 
     public void invoke(final Scanner scanner, final Injector injector) throws Exception {
@@ -62,13 +50,18 @@ public class EntryMethod {
                     prompt = parameter.getName();
                 }
 
-                // execute wrapper
-                parameters.add(promptValue(
+                final Object val = Wrappers.requestValue(
                     scanner,
                     parameter.getType(),
                     prompt,
-                    parameter::getAnnotation
-                ));
+                    new PriorityAnnotationProvider(
+                        method::getAnnotation,
+                        parameter::getAnnotation
+                    )
+                );
+
+                // execute wrapper
+                parameters.add(val);
             }
         }
         System.out.println();

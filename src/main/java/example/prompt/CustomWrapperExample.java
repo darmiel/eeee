@@ -3,10 +3,9 @@ package example.prompt;
 import io.d2a.eeee.Starter;
 import io.d2a.eeee.annotation.annotations.Entrypoint;
 import io.d2a.eeee.annotation.annotations.Prompt;
-import io.d2a.eeee.annotation.provider.AnnotationProvider;
-import io.d2a.eeee.generate.Factory;
-import io.d2a.eeee.wrapper.Wrapper;
-import java.util.Scanner;
+import io.d2a.eeee.generate.prompt.PromptFactory;
+import io.d2a.eeee.nw.RawWrapper;
+import io.d2a.eeee.nw.WrapContext;
 
 public class CustomWrapperExample {
 
@@ -14,7 +13,7 @@ public class CustomWrapperExample {
         Starter.start(CustomWrapperExample.class, args);
     }
 
-    public static class Rectangle implements Wrapper<Rectangle> {
+    public static class Rectangle implements RawWrapper<Rectangle> {
         @Prompt("Height")
         private int height;
 
@@ -30,12 +29,8 @@ public class CustomWrapperExample {
         }
 
         @Override
-        public Rectangle wrap(
-            final Scanner scanner,
-            final String prompt,
-            final AnnotationProvider provider
-        ) throws Exception {
-            return Factory.createClass(scanner, Rectangle.class);
+        public Rectangle wrap(final WrapContext ctx) throws Exception {
+            return PromptFactory.createClass(ctx.getScanner(), Rectangle.class);
         }
     }
 
