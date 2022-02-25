@@ -4,9 +4,9 @@ import io.d2a.eeee.Starter;
 import io.d2a.eeee.annotation.annotations.Entrypoint;
 import io.d2a.eeee.annotation.annotations.Prompt;
 import io.d2a.eeee.generate.Factory;
+import io.d2a.eeee.nw.RawWrapper;
 import io.d2a.eeee.nw.WrapContext;
 import io.d2a.eeee.nw.Wrapper;
-import io.d2a.eeee.nw.display.Component;
 import io.d2a.eeee.nw.display.Components;
 import io.d2a.eeee.nw.display.PromptDisplay;
 import io.d2a.eeee.nw.display.StackPromptDisplay;
@@ -18,7 +18,7 @@ public class CustomWrapperExample {
         Starter.start(CustomWrapperExample.class, args);
     }
 
-    public static class Rectangle implements Wrapper<Rectangle> {
+    public static class Rectangle implements RawWrapper<Rectangle> {
         @Prompt("Height")
         private int height;
 
@@ -34,17 +34,8 @@ public class CustomWrapperExample {
         }
 
         @Override
-        public Rectangle wrap(final String input, final WrapContext ctx) throws Exception {
-            return Factory.createClass(new Scanner(System.in), Rectangle.class);
-        }
-
-        @Override
-        public PromptDisplay prompt(final WrapContext ctx) {
-            return new StackPromptDisplay(
-                Components.TYPE,
-                Components.PROMPT,
-                Components.DEFAULT
-            );
+        public Rectangle wrap(final WrapContext ctx) throws Exception {
+            return Factory.createClass(ctx.getScanner(), Rectangle.class);
         }
     }
 

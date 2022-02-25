@@ -3,6 +3,7 @@ package io.d2a.eeee.nw.wrappers;
 import io.d2a.eeee.annotation.Annotations;
 import io.d2a.eeee.annotation.annotations.Range;
 import io.d2a.eeee.annotation.annotations.Split;
+import io.d2a.eeee.nw.PromptWrapper;
 import io.d2a.eeee.nw.Validate;
 import io.d2a.eeee.nw.ValidateContext;
 import io.d2a.eeee.nw.WrapContext;
@@ -14,7 +15,7 @@ import io.d2a.eeee.nw.display.StackPromptDisplay;
 import io.d2a.eeee.nw.display.PromptDisplay;
 import java.lang.reflect.Array;
 
-public class ArrayWrapper implements Wrapper<Object>, Validate<Object> {
+public class ArrayWrapper implements PromptWrapper<Object>, Validate<Object> {
 
     private String getSplitAt(final WrapContext ctx) {
         // get split separator
@@ -33,13 +34,19 @@ public class ArrayWrapper implements Wrapper<Object>, Validate<Object> {
         final Class<?> componentType = ctx.getType().getComponentType();
         final Wrapper<?> componentWrapper = Wrappers.findWrapper(componentType);
 
+        // currently, only supports PromptWrapper
+        if (!(componentWrapper instanceof PromptWrapper)) {
+            throw new IllegalArgumentException("invalid wrapper type for array type");
+        }
+        final PromptWrapper<?> promptWrapper = (PromptWrapper<?>) componentWrapper;
+
         final String[] components = input.split(this.getSplitAt(ctx));
 
         // create new instance of array
         final Object array = Array.newInstance(componentType, components.length);
         for (int i = 0; i < components.length; i++) {
             final String component = components[i].trim();
-            final Object val = componentWrapper.wrap(component, ctx);
+            final Object val = promptWrapper.wrap(component, ctx);
             Array.set(array, i, val);
         }
 

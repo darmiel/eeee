@@ -1,5 +1,6 @@
 package io.d2a.eeee.nw;
 
+import io.d2a.eeee.annotation.annotations.Default;
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.nw.exception.ValidateException;
 import io.d2a.eeee.nw.exception.WrapException.Action;
@@ -62,6 +63,40 @@ public class Wrappers {
         return wrapper;
     }
 
+    private static <T> T requestValueFromWrapper(
+        final Wrapper<T> wrapper,
+        final WrapContext ctx,
+        final AnnotationProvider provider,
+        final Class<?> type,
+        final String display
+    ) throws Exception {
+        // show prompt for prompt wrapper
+        if (wrapper instanceof PromptWrapper) {
+            final PromptWrapper<T> promptWrapper = (PromptWrapper<T>) wrapper;
+            final String prompt = promptWrapper.prompt(ctx).prompt(provider, type, display);
+
+            // print prompt
+            System.out.print(prompt);
+
+            // read input
+            final String line = ctx.getScanner().nextLine().trim();
+            if (line.isEmpty()) {
+                // does the input have a default value?
+                final Default def = provider.get(Default.class);
+                if (def != null) {
+                    return promptWrapper.wrap(def.value(), ctx);
+                }
+            }
+
+            // try to wrap value
+            return promptWrapper.wrap(line, ctx);
+        } else if (wrapper instanceof RawWrapper) {
+            final RawWrapper<T> rawWrapper = (RawWrapper<T>) wrapper;
+            return rawWrapper.wrap(ctx);
+        } else {
+            throw new IllegalArgumentException("invalid wrapper for " + type);
+        }
+    }
 
     @SuppressWarnings("unchecked")
     public static <T> T requestValue(
@@ -71,29 +106,24 @@ public class Wrappers {
         final AnnotationProvider provider
     ) throws Exception {
         final Wrapper<T> wrapper = (Wrapper<T>) findWrapper(type);
-        final WrapContext ctx = new WrapContext(type, provider);
-        final String prompt = wrapper.prompt(ctx).prompt(provider, type, display);
+        final WrapContext ctx = new WrapContext(scanner, type, provider);
 
-        // print prompt
         while (true) {
-            System.out.print(prompt);
-
-            // read input
-            final String line = scanner.nextLine().trim();
-
-            // try to wrap value
             final T t;
+
+            // request input
             try {
-                t = wrapper.wrap(line, ctx);
-            } catch (final Exception ex) {
-                System.out.println(" 🦑 [wrap-error] " + ex.getMessage());
+                t = requestValueFromWrapper(wrapper, ctx, provider, type, display);
+            } catch (final Exception exception) {
+                System.out.println(" 🦑 [wrap-error] " + exception.getMessage());
                 continue;
             }
 
-            // do we need to validate the input?
+            // validate input
             if (wrapper instanceof Validate) {
                 final Validate<T> validate = (Validate<T>) wrapper;
                 final ValidateContext validateContext = new ValidateContext(provider);
+
                 try {
                     validate.check(t, validateContext);
                 } catch (final Exception ex) {

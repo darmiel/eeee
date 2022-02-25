@@ -2,16 +2,16 @@ package io.d2a.eeee.nw.wrappers;
 
 import io.d2a.eeee.annotation.Annotations;
 import io.d2a.eeee.annotation.annotations.Range;
+import io.d2a.eeee.nw.PromptWrapper;
 import io.d2a.eeee.nw.Validate;
 import io.d2a.eeee.nw.ValidateContext;
 import io.d2a.eeee.nw.WrapContext;
-import io.d2a.eeee.nw.Wrapper;
 import io.d2a.eeee.nw.exception.ValidateException;
 import io.d2a.eeee.nw.display.Components;
 import io.d2a.eeee.nw.display.StackPromptDisplay;
 import io.d2a.eeee.nw.display.PromptDisplay;
 
-public class DoubleWrapper implements Wrapper<Double>, Validate<Double> {
+public class DoubleWrapper implements PromptWrapper<Double>, Validate<Double> {
 
     @Override
     public Double wrap(final String input, final WrapContext ctx) throws Exception {
