@@ -6,6 +6,8 @@ import io.d2a.eeee.annotation.annotations.Pattern;
 import io.d2a.eeee.annotation.annotations.Prompt;
 import io.d2a.eeee.annotation.annotations.Range;
 import io.d2a.eeee.annotation.annotations.Split;
+import io.d2a.eeee.annotation.annotations.Transform;
+import io.d2a.eeee.annotation.annotations.Transform.Type;
 import java.util.Arrays;
 
 public class ArrayPromptExample {
@@ -20,6 +22,14 @@ public class ArrayPromptExample {
         final String[] persons
     ) {
         System.out.println(Arrays.toString(persons));
+    }
+
+    @Entrypoint
+    public void run2(
+        @Split(",") @Range({2, 3}) @Transform(Type.UPPER)
+        final String[] names
+    ) {
+        System.out.println(Arrays.toString(names));
     }
 
 }

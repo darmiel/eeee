@@ -33,4 +33,18 @@ public class StringConverterTest {
         }
     }
 
+    @Test
+    public void testRepeat() {
+        final TestCase[] cases = {
+            new TestCase("----------------------------------------------------------------", 64),
+            new TestCase("---", 3),
+            new TestCase("", 0),
+            new TestCase("-", 1)
+        };
+
+        for (final TestCase testCase : cases) {
+            assertEquals(testCase.expected, StringConverter.repeat("-", testCase.value));
+        }
+    }
+
 }
