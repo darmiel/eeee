@@ -11,4 +11,6 @@ public @interface Inject {
 
     String value() default "";
 
+    boolean create() default false;
+
 }

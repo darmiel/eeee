@@ -56,6 +56,7 @@ public class Starter {
         final Injector injector = new Injector()
             .register(Scanner.class, scanner)
             .register(String[].class, args, "args");
+        injector.register(Injector.class, injector); // register self
 
         if (injectorSupplier != null) {
             injectorSupplier.accept(injector);

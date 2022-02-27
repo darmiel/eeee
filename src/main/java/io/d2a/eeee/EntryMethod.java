@@ -1,8 +1,12 @@
 package io.d2a.eeee;
 
 import io.d2a.eeee.annotation.annotations.Entrypoint;
+import io.d2a.eeee.annotation.annotations.Generate;
 import io.d2a.eeee.annotation.annotations.Prompt;
+import io.d2a.eeee.annotation.annotations.Use;
 import io.d2a.eeee.annotation.provider.PriorityAnnotationProvider;
+import io.d2a.eeee.generate.random.RandomFactory;
+import io.d2a.eeee.inject.Inject;
 import io.d2a.eeee.inject.Injector;
 import io.d2a.eeee.nw.Wrappers;
 import java.lang.reflect.Method;
@@ -44,22 +48,48 @@ public class EntryMethod {
                 }
 
                 for (final Parameter parameter : this.method.getParameters()) {
-                    final String prompt;
-                    if (parameter.isAnnotationPresent(Prompt.class)) {
-                        prompt = parameter.getAnnotation(Prompt.class).value();
-                    } else {
-                        prompt = parameter.getName();
-                    }
+                    final Object val;
 
-                    final Object val = Wrappers.requestValue(
-                        scanner,
-                        parameter.getType(),
-                        prompt,
-                        new PriorityAnnotationProvider(
-                            method::getAnnotation,
-                            parameter::getAnnotation
-                        )
-                    );
+                    if (parameter.isAnnotationPresent(Inject.class)) {
+                        final Inject inject = parameter.getAnnotation(Inject.class);
+                        // get value from injector
+                        if (inject.create()) {
+                            // create new class
+                            val = injector.create(parameter.getType());
+                        } else {
+                            val = injector.find(parameter.getType(), inject.value());
+                        }
+                    } else if (parameter.isAnnotationPresent(Generate.class)) {
+                       final Generate generate = parameter.getAnnotation(Generate.class);
+                       final Use use = parameter.getAnnotation(Use.class);
+
+                       final Class<?> generatorType;
+                       if (use != null) {
+                           generatorType = use.value();
+                       } else {
+                           generatorType = parameter.getType();
+                       }
+
+                       val = RandomFactory.generate(generatorType, generate.value(), parameter::getAnnotation, injector);
+                    } else {
+                        // get value from prompt value request
+                        final String prompt;
+                        if (parameter.isAnnotationPresent(Prompt.class)) {
+                            prompt = parameter.getAnnotation(Prompt.class).value();
+                        } else {
+                            prompt = parameter.getName();
+                        }
+
+                        val = Wrappers.requestValue(
+                            scanner,
+                            parameter.getType(),
+                            prompt,
+                            new PriorityAnnotationProvider(
+                                method::getAnnotation,
+                                parameter::getAnnotation
+                            )
+                        );
+                    }
 
                     // execute wrapper
                     parameters.add(val);

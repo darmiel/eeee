@@ -47,15 +47,29 @@ public class RandomFactory {
     public static <T> T generate(
         final Class<T> typeClass,
         final String constructorName,
+        final AnnotationProvider provider,
+        final Injector injector
+    ) throws Exception {
+        return generate(
+            typeClass,
+            constructorName,
+            provider,
+            injector,
+            new HashMap<>(),
+            new HashMap<>()
+        );
+    }
+
+    public static <T> T generate(
+        final Class<T> typeClass,
+        final String constructorName,
         final AnnotationProvider provider
     ) throws Exception {
         return generate(
             typeClass,
             constructorName,
             provider,
-            null,
-            new HashMap<>(),
-            new HashMap<>()
+            Injector.EMPTY
         );
     }
 
