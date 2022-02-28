@@ -1,11 +1,11 @@
 # EEEE
 
 EEEE* is a tiny framework for simple console input of values and generation of objects, which I
-wrote mainly for exercises of the university, because here often simple inputs with a scanner are
-needed, and I did not want to rewrite them again and again.
+wrote mainly for exercises of my university, because often simple inputs with a scanner are
+needed, and I did not want to rewrite them all the time.
 
 Also, I didn't use any existing frameworks, ~~because apparently we are only allowed to use
-self-written code in the exams, and so I am allowed to use this mini-framework in the exams~~.
+self-written code in the exams, and thus I am allowed to use this mini-framework in the exams~~.
 
 **EDIT:** Looks like all frameworks are allowed. Well shit.
 
@@ -14,7 +14,7 @@ self-written code in the exams, and so I am allowed to use this mini-framework i
 **NOTE:** This framework is ab-so-lutely not suitable for production use. It should only serve for
 practice. Also, definitely not type-safe.
 
-Below, you can find some quick starts for each module.
+[Here](https://github.com/darmiel/eeee/tree/main/src/main/java/example), you can find some examples for some modules.
 
 ---
 

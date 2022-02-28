@@ -3,7 +3,7 @@
 ![prev](assets/action.gif)
 
 The framework makes it very easy to define multiple "entry points"
-(annotated with `@Entrypoint`) without always having to write different main methods:
+(annotated with `@Entrypoint`) without having to write different main methods:
 
 ```java
 public class Application {
@@ -21,9 +21,8 @@ public class Application {
 
 }
 ```
-
-If you now start the program, invoking `Starter.start` in your main method, you will be asked which
-program you want to run:
+You will be asked which program you want to run if you start the program and invoke Starter.start 
+in your main method.
 
 ```java
 public static void main(String[] args) throws Exception {
