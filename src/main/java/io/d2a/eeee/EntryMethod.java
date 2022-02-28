@@ -64,7 +64,7 @@ public class EntryMethod {
                        final Use use = parameter.getAnnotation(Use.class);
 
                        final Class<?> generatorType;
-                       if (use != null) {
+                       if (use != null && !parameter.getType().isArray()) {
                            generatorType = use.value();
                        } else {
                            generatorType = parameter.getType();
