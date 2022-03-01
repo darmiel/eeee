@@ -3,8 +3,8 @@ package io.d2a.eeee.annotation;
 import io.d2a.eeee.annotation.annotations.Default;
 import io.d2a.eeee.annotation.annotations.Range;
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
-import io.d2a.eeee.nw.exception.ValidateException;
-import io.d2a.eeee.nw.exception.WrapException.Action;
+import io.d2a.eeee.prompt.exception.ValidateException;
+import io.d2a.eeee.prompt.exception.WrapException.Action;
 
 public class Annotations {
 

@@ -1,6 +1,6 @@
-package io.d2a.eeee.nw.exception;
+package io.d2a.eeee.prompt.exception;
 
-import io.d2a.eeee.nw.exception.WrapException.Action;
+import io.d2a.eeee.prompt.exception.WrapException.Action;
 
 public class ValidateException extends Exception {
 

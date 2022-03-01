@@ -1,4 +1,4 @@
-package io.d2a.eeee.nw.display;
+package io.d2a.eeee.prompt.display;
 
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
 

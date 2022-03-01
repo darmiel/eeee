@@ -5,6 +5,8 @@ import io.d2a.eeee.annotation.annotations.Entrypoint;
 import io.d2a.eeee.annotation.annotations.Fill;
 import io.d2a.eeee.annotation.annotations.Generate;
 import io.d2a.eeee.annotation.annotations.Prompt;
+import io.d2a.eeee.annotation.annotations.Use;
+import io.d2a.eeee.generate.random.generators.special.NameGenerator;
 import io.d2a.eeee.inject.Inject;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -37,7 +39,7 @@ public class LoopExample {
     @Entrypoint(loop = true)
     public void run(
         @Prompt("_") final String line,
-        @Generate @Fill(10) final Test[] testGen,
+        @Generate @Fill(10) @Use(NameGenerator.class) final String[] testGen,
         @Inject(create = true) Test testInj
     ) {
         System.out.println(line);

@@ -1,6 +1,6 @@
-package io.d2a.eeee.nw;
+package io.d2a.eeee.prompt;
 
-import io.d2a.eeee.nw.display.PromptDisplay;
+import io.d2a.eeee.prompt.display.PromptDisplay;
 
 public interface PromptWrapper<T> extends Wrapper<T> {
 

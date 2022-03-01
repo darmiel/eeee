@@ -1,4 +1,4 @@
-package io.d2a.eeee.nw;
+package io.d2a.eeee.prompt;
 
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import java.lang.annotation.Annotation;

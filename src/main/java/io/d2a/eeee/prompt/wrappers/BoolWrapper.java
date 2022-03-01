@@ -1,11 +1,11 @@
-package io.d2a.eeee.nw.wrappers;
+package io.d2a.eeee.prompt.wrappers;
 
-import io.d2a.eeee.nw.PromptWrapper;
-import io.d2a.eeee.nw.WrapContext;
-import io.d2a.eeee.nw.display.Components;
-import io.d2a.eeee.nw.display.PromptDisplay;
-import io.d2a.eeee.nw.display.StackPromptDisplay;
-import io.d2a.eeee.nw.exception.WrapException;
+import io.d2a.eeee.prompt.PromptWrapper;
+import io.d2a.eeee.prompt.WrapContext;
+import io.d2a.eeee.prompt.display.Components;
+import io.d2a.eeee.prompt.display.PromptDisplay;
+import io.d2a.eeee.prompt.display.StackPromptDisplay;
+import io.d2a.eeee.prompt.exception.WrapException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;

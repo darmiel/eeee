@@ -1,4 +1,4 @@
-package io.d2a.eeee.nw;
+package io.d2a.eeee.prompt;
 
 public interface Wrapper<T> {
 

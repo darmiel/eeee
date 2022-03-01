@@ -36,7 +36,7 @@ practice. Also, definitely not type-safe.
 <dependency>
     <groupId>com.github.darmiel</groupId>
     <artifactId>eeee</artifactId>
-    <version>2.1.2</version>
+    <version>2.2.0</version>
 </dependency>
 ```
 

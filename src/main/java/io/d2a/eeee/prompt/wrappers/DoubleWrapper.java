@@ -1,16 +1,16 @@
-package io.d2a.eeee.nw.wrappers;
+package io.d2a.eeee.prompt.wrappers;
 
 import io.d2a.eeee.annotation.Annotations;
 import io.d2a.eeee.annotation.annotations.Range;
-import io.d2a.eeee.nw.PromptWrapper;
-import io.d2a.eeee.nw.Validate;
-import io.d2a.eeee.nw.ValidateContext;
-import io.d2a.eeee.nw.WrapContext;
-import io.d2a.eeee.nw.display.Components;
-import io.d2a.eeee.nw.display.PromptDisplay;
-import io.d2a.eeee.nw.display.StackPromptDisplay;
-import io.d2a.eeee.nw.exception.ValidateException;
-import io.d2a.eeee.nw.exception.WrapException;
+import io.d2a.eeee.prompt.PromptWrapper;
+import io.d2a.eeee.prompt.Validate;
+import io.d2a.eeee.prompt.ValidateContext;
+import io.d2a.eeee.prompt.WrapContext;
+import io.d2a.eeee.prompt.display.Components;
+import io.d2a.eeee.prompt.display.PromptDisplay;
+import io.d2a.eeee.prompt.display.StackPromptDisplay;
+import io.d2a.eeee.prompt.exception.ValidateException;
+import io.d2a.eeee.prompt.exception.WrapException;
 
 public class DoubleWrapper implements PromptWrapper<Double>, Validate<Double> {
 

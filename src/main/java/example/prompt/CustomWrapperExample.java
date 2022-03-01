@@ -4,8 +4,8 @@ import io.d2a.eeee.Starter;
 import io.d2a.eeee.annotation.annotations.Entrypoint;
 import io.d2a.eeee.annotation.annotations.Prompt;
 import io.d2a.eeee.generate.prompt.PromptFactory;
-import io.d2a.eeee.nw.RawWrapper;
-import io.d2a.eeee.nw.WrapContext;
+import io.d2a.eeee.prompt.RawWrapper;
+import io.d2a.eeee.prompt.WrapContext;
 
 public class CustomWrapperExample {
 

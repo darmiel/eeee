@@ -8,7 +8,7 @@ import io.d2a.eeee.annotation.provider.PriorityAnnotationProvider;
 import io.d2a.eeee.generate.random.RandomFactory;
 import io.d2a.eeee.inject.Inject;
 import io.d2a.eeee.inject.Injector;
-import io.d2a.eeee.nw.Wrappers;
+import io.d2a.eeee.prompt.Wrappers;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;

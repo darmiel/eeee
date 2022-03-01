@@ -1,4 +1,4 @@
-package io.d2a.eeee.nw.display;
+package io.d2a.eeee.prompt.display;
 
 public interface Component {
 

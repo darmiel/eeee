@@ -1,6 +1,6 @@
-package io.d2a.eeee.nw;
+package io.d2a.eeee.prompt;
 
-import io.d2a.eeee.nw.exception.ValidateException;
+import io.d2a.eeee.prompt.exception.ValidateException;
 
 public interface Validate<T> {
 

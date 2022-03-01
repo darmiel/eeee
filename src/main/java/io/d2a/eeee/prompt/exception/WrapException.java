@@ -1,4 +1,4 @@
-package io.d2a.eeee.nw.exception;
+package io.d2a.eeee.prompt.exception;
 
 public class WrapException extends Exception {
 

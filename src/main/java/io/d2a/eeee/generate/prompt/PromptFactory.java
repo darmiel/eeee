@@ -5,7 +5,7 @@ import io.d2a.eeee.annotation.annotations.Use;
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.inject.Inject;
 import io.d2a.eeee.inject.Injector;
-import io.d2a.eeee.nw.Wrappers;
+import io.d2a.eeee.prompt.Wrappers;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

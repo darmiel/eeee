@@ -1,5 +1,9 @@
 package io.d2a.eeee.converter;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class StringConverter {
 
     public static final char[] POWERS =
@@ -44,6 +48,54 @@ public class StringConverter {
         final StringBuilder bob = new StringBuilder();
         for (int i = 0; i < n; i++) {
             bob.append(sequence);
+        }
+        return bob.toString();
+    }
+
+    /**
+     * @param clazz Class to return all superclasses from
+     * @return a list with all superclasses from {clazz}
+     */
+    private static List<Class<?>> getSuperclasses(final Class<?> clazz) {
+        if (clazz == null || clazz == Object.class) {
+            return Collections.emptyList();
+        }
+        final List<Class<?>> superclasses = new ArrayList<>();
+        superclasses.add(clazz);
+        superclasses.addAll(getSuperclasses(clazz.getSuperclass()));
+        return superclasses;
+    }
+
+    /**
+     * Example:
+     *
+     * <pre>
+     * class io.d2a.eeee.converter.A
+     *  └ class io.d2a.eeee.converter.B
+     *     └ class io.d2a.eeee.converter.C
+     *        └ class io.d2a.eeee.converter.D
+     *           └ class io.d2a.eeee.converter.E
+     *              └ class io.d2a.eeee.converter.G
+     * </pre>
+     *
+     * @param clazz Class to print super classes
+     * @return Formatted string
+     */
+    private static String getSuperTree(final Class<?> clazz) {
+        final List<Class<?>> superclasses = getSuperclasses(clazz);
+        final StringBuilder bob = new StringBuilder();
+
+        for (int i = 0; i < superclasses.size(); i++) {
+            final Class<?> parentReverse = superclasses.get(
+                superclasses.size() - i - 1
+            );
+
+            if (i != 0) {
+                // append depth level
+                bob.append(repeat(" ", i * 3 - 2));
+                bob.append("└ ");
+            }
+            bob.append(parentReverse.toString()).append('\n');
         }
         return bob.toString();
     }
