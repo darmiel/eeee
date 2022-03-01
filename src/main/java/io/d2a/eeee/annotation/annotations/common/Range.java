@@ -1,4 +1,4 @@
-package io.d2a.eeee.annotation.annotations;
+package io.d2a.eeee.annotation.annotations.common;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -12,7 +12,13 @@ import java.lang.annotation.Target;
  * 3, 5, 7, 9)
  * <code>@Range(10)</code> numbers from 0 to 10
  */
-@Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE, ElementType.CONSTRUCTOR})
+@Target({
+    ElementType.FIELD,
+    ElementType.PARAMETER,
+    ElementType.TYPE,
+    ElementType.CONSTRUCTOR,
+    ElementType.METHOD
+})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Range {
 

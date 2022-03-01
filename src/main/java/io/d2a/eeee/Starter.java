@@ -1,7 +1,7 @@
 package io.d2a.eeee;
 
-import io.d2a.eeee.annotation.annotations.Entrypoint;
-import io.d2a.eeee.annotation.annotations.ForceRun;
+import io.d2a.eeee.annotation.annotations.prompt.Entrypoint;
+import io.d2a.eeee.annotation.annotations.prompt.ForceRun;
 import io.d2a.eeee.inject.Injector;
 import java.lang.reflect.Method;
 import java.util.ArrayList;

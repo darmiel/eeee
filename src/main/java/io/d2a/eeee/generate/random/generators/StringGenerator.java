@@ -1,7 +1,7 @@
 package io.d2a.eeee.generate.random.generators;
 
-import io.d2a.eeee.annotation.annotations.Transform;
-import io.d2a.eeee.annotation.annotations.Transform.Type;
+import io.d2a.eeee.annotation.annotations.common.Transform;
+import io.d2a.eeee.annotation.annotations.common.Transform.Type;
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import java.util.Random;
 

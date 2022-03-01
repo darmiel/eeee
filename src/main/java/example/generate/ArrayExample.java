@@ -1,8 +1,8 @@
 package example.generate;
 
-import io.d2a.eeee.annotation.annotations.Fill;
-import io.d2a.eeee.annotation.annotations.Generate;
-import io.d2a.eeee.annotation.annotations.Range;
+import io.d2a.eeee.annotation.annotations.common.Range;
+import io.d2a.eeee.annotation.annotations.generate.Fill;
+import io.d2a.eeee.annotation.annotations.generate.Generate;
 import io.d2a.eeee.generate.random.RandomFactory;
 import io.d2a.eeee.inject.Inject;
 import io.d2a.eeee.inject.Injector;

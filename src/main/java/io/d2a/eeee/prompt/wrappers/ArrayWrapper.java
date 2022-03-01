@@ -1,8 +1,8 @@
 package io.d2a.eeee.prompt.wrappers;
 
 import io.d2a.eeee.annotation.Annotations;
-import io.d2a.eeee.annotation.annotations.Range;
-import io.d2a.eeee.annotation.annotations.Split;
+import io.d2a.eeee.annotation.annotations.common.Range;
+import io.d2a.eeee.annotation.annotations.prompt.Split;
 import io.d2a.eeee.prompt.PromptWrapper;
 import io.d2a.eeee.prompt.Validate;
 import io.d2a.eeee.prompt.ValidateContext;

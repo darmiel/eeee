@@ -2,7 +2,6 @@ package io.d2a.eeee.inject;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
@@ -26,11 +25,16 @@ public class Injector {
         return this;
     }
 
-    public Object find(final Class<?> clazz, final String name) {
+    @SuppressWarnings("unchecked")
+    public <T> T find(final Class<T> clazz, final String name) {
         if (this.dependencies.containsKey(clazz, name)) {
-            return this.dependencies.get(clazz, name);
+            return (T) this.dependencies.get(clazz, name);
         }
         return null;
+    }
+
+    public <T> T find(final Class<T> clazz) {
+        return this.find(clazz, "");
     }
 
     public void injectFields(final Object instance) throws IllegalAccessException {

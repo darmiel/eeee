@@ -4,7 +4,7 @@ The framework includes a Mini-Injector functionality. Injected values can be use
 classes by default:
 
 ```java
-import io.d2a.eeee.annotation.annotations.Entrypoint;
+import io.d2a.eeee.annotation.annotations.prompt.Entrypoint;
 import io.d2a.eeee.inject.Inject;
 
 public class App {

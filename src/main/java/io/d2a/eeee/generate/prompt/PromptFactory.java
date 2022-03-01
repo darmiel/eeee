@@ -1,7 +1,7 @@
 package io.d2a.eeee.generate.prompt;
 
-import io.d2a.eeee.annotation.annotations.Prompt;
-import io.d2a.eeee.annotation.annotations.Use;
+import io.d2a.eeee.annotation.annotations.common.Use;
+import io.d2a.eeee.annotation.annotations.prompt.Prompt;
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.inject.Inject;
 import io.d2a.eeee.inject.Injector;

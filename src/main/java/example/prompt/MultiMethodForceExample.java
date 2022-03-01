@@ -1,8 +1,8 @@
 package example.prompt;
 
 import io.d2a.eeee.Starter;
-import io.d2a.eeee.annotation.annotations.Entrypoint;
-import io.d2a.eeee.annotation.annotations.ForceRun;
+import io.d2a.eeee.annotation.annotations.prompt.Entrypoint;
+import io.d2a.eeee.annotation.annotations.prompt.ForceRun;
 
 /**
  * b should always be called at startup

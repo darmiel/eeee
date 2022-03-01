@@ -1,8 +1,8 @@
 package example.generate;
 
 import io.d2a.eeee.Starter;
-import io.d2a.eeee.annotation.annotations.Entrypoint;
-import io.d2a.eeee.annotation.annotations.Generate;
+import io.d2a.eeee.annotation.annotations.generate.Generate;
+import io.d2a.eeee.annotation.annotations.prompt.Entrypoint;
 import io.d2a.eeee.generate.random.RandomFactory;
 
 public class MultiConstructorExample {

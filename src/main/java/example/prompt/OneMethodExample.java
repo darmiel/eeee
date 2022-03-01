@@ -1,7 +1,7 @@
 package example.prompt;
 
 import io.d2a.eeee.Starter;
-import io.d2a.eeee.annotation.annotations.Entrypoint;
+import io.d2a.eeee.annotation.annotations.prompt.Entrypoint;
 
 public class OneMethodExample {
 

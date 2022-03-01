@@ -1,9 +1,9 @@
 package example.generate;
 
 import io.d2a.eeee.Starter;
-import io.d2a.eeee.annotation.annotations.Entrypoint;
-import io.d2a.eeee.annotation.annotations.Prompt;
-import io.d2a.eeee.annotation.annotations.Range;
+import io.d2a.eeee.annotation.annotations.common.Range;
+import io.d2a.eeee.annotation.annotations.prompt.Entrypoint;
+import io.d2a.eeee.annotation.annotations.prompt.Prompt;
 import io.d2a.eeee.generate.prompt.PromptFactory;
 import java.util.Scanner;
 

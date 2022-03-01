@@ -1,14 +1,12 @@
-package io.d2a.eeee.annotation.annotations;
+package io.d2a.eeee.annotation.annotations.prompt;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.PARAMETER, ElementType.FIELD})
-public @interface Default {
-
-    String value() default "";
+public @interface ForceRun {
 
 }

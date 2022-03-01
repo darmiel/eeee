@@ -1,14 +1,8 @@
 package io.d2a.eeee;
 
-import io.d2a.eeee.annotation.annotations.Entrypoint;
-import io.d2a.eeee.annotation.annotations.Generate;
-import io.d2a.eeee.annotation.annotations.Prompt;
-import io.d2a.eeee.annotation.annotations.Use;
+import io.d2a.eeee.annotation.annotations.prompt.Entrypoint;
 import io.d2a.eeee.annotation.provider.PriorityAnnotationProvider;
-import io.d2a.eeee.generate.random.RandomFactory;
-import io.d2a.eeee.inject.Inject;
 import io.d2a.eeee.inject.Injector;
-import io.d2a.eeee.prompt.Wrappers;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
@@ -48,51 +42,17 @@ public class EntryMethod {
                 }
 
                 for (final Parameter parameter : this.method.getParameters()) {
-                    final Object val;
-
-                    if (parameter.isAnnotationPresent(Inject.class)) {
-                        final Inject inject = parameter.getAnnotation(Inject.class);
-                        // get value from injector
-                        if (inject.create()) {
-                            // create new class
-                            val = injector.create(parameter.getType());
-                        } else {
-                            val = injector.find(parameter.getType(), inject.value());
-                        }
-                    } else if (parameter.isAnnotationPresent(Generate.class)) {
-                       final Generate generate = parameter.getAnnotation(Generate.class);
-                       final Use use = parameter.getAnnotation(Use.class);
-
-                       final Class<?> generatorType;
-                       if (use != null && !parameter.getType().isArray()) {
-                           generatorType = use.value();
-                       } else {
-                           generatorType = parameter.getType();
-                       }
-
-                       val = RandomFactory.generate(generatorType, generate.value(), parameter::getAnnotation, injector);
-                    } else {
-                        // get value from prompt value request
-                        final String prompt;
-                        if (parameter.isAnnotationPresent(Prompt.class)) {
-                            prompt = parameter.getAnnotation(Prompt.class).value();
-                        } else {
-                            prompt = parameter.getName();
-                        }
-
-                        val = Wrappers.requestValue(
-                            scanner,
-                            parameter.getType(),
-                            prompt,
-                            new PriorityAnnotationProvider(
-                                method::getAnnotation,
-                                parameter::getAnnotation
-                            )
-                        );
-                    }
-
                     // execute wrapper
-                    parameters.add(val);
+                    parameters.add(PromptFactory.requestAll(
+                        scanner,
+                        new PriorityAnnotationProvider(
+                            method::getAnnotation,
+                            parameter::getAnnotation
+                        ),
+                        injector,
+                        parameter.getType(),
+                        parameter.getName()
+                    ));
                 }
             }
             System.out.println();
@@ -103,13 +63,17 @@ public class EntryMethod {
                     method.getName(), clazz.getSimpleName(), typeStr);
             }
 
-            System.out.println("---");
+            if (this.entrypoint.verbose() || this.entrypoint.stopwatch()) {
+                System.out.println("---");
+            }
 
             final long timeStart = System.currentTimeMillis();
             this.method.invoke(instance, parameters.toArray());
             final long timeEnd = System.currentTimeMillis();
 
-            System.out.println("---");
+            if (this.entrypoint.verbose() || this.entrypoint.stopwatch()) {
+                System.out.println("---");
+            }
 
             if (this.entrypoint.stopwatch()) {
                 System.out.printf("Execution complete! Took approx. %dms.%n", timeEnd - timeStart);

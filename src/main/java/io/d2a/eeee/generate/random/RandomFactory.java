@@ -1,8 +1,8 @@
 package io.d2a.eeee.generate.random;
 
-import io.d2a.eeee.annotation.annotations.Depth;
-import io.d2a.eeee.annotation.annotations.Generate;
-import io.d2a.eeee.annotation.annotations.Use;
+import io.d2a.eeee.annotation.annotations.common.Use;
+import io.d2a.eeee.annotation.annotations.generate.Depth;
+import io.d2a.eeee.annotation.annotations.generate.Generate;
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.annotation.provider.EmptyAnnotationProvider;
 import io.d2a.eeee.annotation.provider.PriorityAnnotationProvider;

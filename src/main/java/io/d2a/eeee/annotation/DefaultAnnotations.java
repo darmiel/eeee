@@ -1,6 +1,6 @@
 package io.d2a.eeee.annotation;
 
-import io.d2a.eeee.annotation.annotations.Range;
+import io.d2a.eeee.annotation.annotations.common.Range;
 import java.lang.annotation.Annotation;
 
 public class DefaultAnnotations {

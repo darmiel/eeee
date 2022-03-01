@@ -1,11 +1,11 @@
 package example.prompt;
 
 import io.d2a.eeee.Starter;
-import io.d2a.eeee.annotation.annotations.Entrypoint;
-import io.d2a.eeee.annotation.annotations.Fill;
-import io.d2a.eeee.annotation.annotations.Generate;
-import io.d2a.eeee.annotation.annotations.Prompt;
-import io.d2a.eeee.annotation.annotations.Use;
+import io.d2a.eeee.annotation.annotations.common.Use;
+import io.d2a.eeee.annotation.annotations.generate.Fill;
+import io.d2a.eeee.annotation.annotations.generate.Generate;
+import io.d2a.eeee.annotation.annotations.prompt.Entrypoint;
+import io.d2a.eeee.annotation.annotations.prompt.Prompt;
 import io.d2a.eeee.generate.random.generators.special.NameGenerator;
 import io.d2a.eeee.inject.Inject;
 import java.util.Arrays;

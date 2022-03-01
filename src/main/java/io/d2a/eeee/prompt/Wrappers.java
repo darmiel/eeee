@@ -1,6 +1,6 @@
 package io.d2a.eeee.prompt;
 
-import io.d2a.eeee.annotation.annotations.Default;
+import io.d2a.eeee.annotation.annotations.prompt.Default;
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.prompt.exception.ValidateException;
 import io.d2a.eeee.prompt.exception.WrapException.Action;

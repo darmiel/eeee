@@ -1,8 +1,8 @@
 package io.d2a.eeee.generate.random.generators;
 
-import io.d2a.eeee.annotation.annotations.Fill;
-import io.d2a.eeee.annotation.annotations.Generate;
-import io.d2a.eeee.annotation.annotations.Use;
+import io.d2a.eeee.annotation.annotations.common.Use;
+import io.d2a.eeee.annotation.annotations.generate.Fill;
+import io.d2a.eeee.annotation.annotations.generate.Generate;
 import io.d2a.eeee.annotation.provider.AnnotationProvider;
 import io.d2a.eeee.generate.random.Generator;
 import io.d2a.eeee.generate.random.RandomFactory;

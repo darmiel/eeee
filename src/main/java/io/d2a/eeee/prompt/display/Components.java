@@ -1,8 +1,8 @@
 package io.d2a.eeee.prompt.display;
 
 import io.d2a.eeee.annotation.Annotations;
-import io.d2a.eeee.annotation.annotations.Default;
-import io.d2a.eeee.annotation.annotations.Range;
+import io.d2a.eeee.annotation.annotations.common.Range;
+import io.d2a.eeee.annotation.annotations.prompt.Default;
 import io.d2a.eeee.chain.Then;
 
 public class Components {
