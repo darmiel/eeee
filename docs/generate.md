@@ -2,8 +2,8 @@
 
 ![prev](assets/generator-action.gif)
 
-Sample objects can be created with the help of the `RandomFactory`. To do this, any constructor in
-the target class must be annotated with `@Generate`.
+Sample objects can be created with the help of the `RandomFactory`. Any constructor in
+the target class must be annotated with `@Generate` in order to work correctly.
 
 **NOTE:** make sure all parameters can be generated.
 
@@ -56,9 +56,8 @@ class Person {
 
 }
 ```
-
 You can implement your own generators by implementing the Generator<T>
-interface in the class to be generated.
+interface in the class that is to be generated.
 
 ```java
 public class A implements Generator<A> {
