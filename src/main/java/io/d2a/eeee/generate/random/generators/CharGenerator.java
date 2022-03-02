@@ -6,8 +6,13 @@ import java.util.Random;
 public class CharGenerator extends MinMaxGenerator<Character> {
 
     @Override
-    public Character generate(final Random random, final double min, final double max,
-        final double step, final AnnotationProvider provider) {
+    public Character generate(
+        final Random random,
+        final double min,
+        final double max,
+        final double step,
+        final AnnotationProvider provider
+    ) {
         final int mini = (int) min;
         final int maxi = (int) max;
         if (mini == maxi) {

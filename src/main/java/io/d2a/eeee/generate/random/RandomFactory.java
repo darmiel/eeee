@@ -100,7 +100,6 @@ public class RandomFactory {
         final String name,
         final Class<T> clazz
     ) throws NoSuchMethodException {
-
         for (final Constructor<?> constructor : clazz.getDeclaredConstructors()) {
             if (!constructor.isAnnotationPresent(Generate.class)) {
                 continue;

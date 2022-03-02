@@ -1,6 +1,7 @@
 package io.d2a.eeee.generate.random;
 
 import io.d2a.eeee.generate.random.generators.ArrayGenerator;
+import io.d2a.eeee.generate.random.generators.BooleanGenerator;
 import io.d2a.eeee.generate.random.generators.CharGenerator;
 import io.d2a.eeee.generate.random.generators.DoubleGenerator;
 import io.d2a.eeee.generate.random.generators.IntGenerator;
@@ -19,6 +20,7 @@ public class Generators {
     public static final Generator<String> STRING = new StringGenerator();
     public static final Generator<Object> ARRAY = new ArrayGenerator();
     public static final Generator<Character> CHAR = new CharGenerator();
+    public static final Generator<Boolean> BOOL = new BooleanGenerator();
 
     public static final Generator<String> NAME = new NameGenerator();
 
@@ -32,6 +34,8 @@ public class Generators {
         GENERATORS.put(String.class, STRING);
         GENERATORS.put(char.class, CHAR);
         GENERATORS.put(Character.class, CHAR);
+        GENERATORS.put(boolean.class, BOOL);
+        GENERATORS.put(Boolean.class, BOOL);
     }
 
     @SuppressWarnings("unchecked")

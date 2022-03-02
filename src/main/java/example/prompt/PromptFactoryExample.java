@@ -7,6 +7,7 @@ import io.d2a.eeee.annotation.annotations.generate.Fill;
 import io.d2a.eeee.annotation.annotations.generate.Generate;
 import io.d2a.eeee.annotation.annotations.prompt.Entrypoint;
 import io.d2a.eeee.annotation.annotations.prompt.Factory;
+import io.d2a.eeee.annotation.annotations.prompt.Prompt;
 import io.d2a.eeee.inject.Inject;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -15,11 +16,12 @@ public class PromptFactoryExample {
 
     public interface PromptInterface {
 
-        @Range({1, 10})
+        @Prompt("Age")
+        @Range({0, 100})
         int requestAge();
 
         @Generate
-        @Fill(4)
+        @Fill(8)
         int[] generateNumbers();
 
         @Inject
@@ -31,8 +33,9 @@ public class PromptFactoryExample {
     public void run (
         @Factory final PromptInterface pi
     ) {
-        System.out.println("Generated Numbers: " + Arrays.toString(pi.generateNumbers()));
+        System.out.println("8 Generated Numbers: " + Arrays.toString(pi.generateNumbers()));
         System.out.println("Your Age: " + pi.requestAge());
+
         System.out.print("Type anything: ");
         System.out.println("You typed: " + pi.getScanner().nextLine());
     }
