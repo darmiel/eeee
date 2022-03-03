@@ -233,4 +233,13 @@ public class RandomFactory {
         fill(array, "", null);
     }
 
+    public static <T> void fillUnsafe(final T[] array) {
+        try {
+            fill(array);
+        } catch (Exception e) {
+            System.out.println("cannot fill array: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 }
