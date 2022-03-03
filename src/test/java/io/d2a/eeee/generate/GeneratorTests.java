@@ -7,7 +7,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
     SimpleGenerateTest.class,
-    MultipleGeneratorTest.class
+    MultipleGeneratorTest.class,
+    InterfaceTest.class
 })
 public class GeneratorTests {
 
