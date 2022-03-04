@@ -14,14 +14,11 @@ import java.util.Arrays;
 
 public class TableExample {
 
-    @HeaderOrder({"Last Name", "First Name", "Age"})
+    @HeaderOrder({"First Name", "Age"})
     public static class Person {
 
         @Column("First Name")
         public final String first;
-
-        @Column("Last Name")
-        public final String last;
 
         @Column("Age")
         public final int age;
@@ -30,32 +27,13 @@ public class TableExample {
         @Generate
         public Person(
             @Use(NameGenerator.class) final String first,
-            @Range({10, 20}) String last,
             @Range({18, 100}) final int age
         ) {
             this.first = first;
-            this.last = last;
             this.age = age;
         }
 
     }
-
-    /*
-╭──────────────────────┬──────────────────────┬──────────────────────╮
-│█████ Last Name ██████│█████ First Name █████│████████ Age █████████│
-├──────────────────────┼──────────────────────┼──────────────────────┤
-│ yxORDZKuvNjcZgiDKi   │ Andrew               │ 33                   │
-│ ZtpqwECjUcvF         │ Rebecca              │ 50                   │
-│ aHnKgPpiMhzWDgJtGk   │ Jeffrey              │ 21                   │
-│ TObgyqkYnyMeaCkXwEd  │ Mark                 │ 59                   │
-│ XPZBEQqMwupDBfxrHxNf │ Angela               │ 47                   │
-│ bDEEYucqYqfNYz       │ Mark                 │ 25                   │
-│ OfDGhvydbcbJpaMqoHUQ │ Kimberly             │ 79                   │
-│ TNwDxZrUvQuvzcRY     │ Joshua               │ 50                   │
-│ gUVshwIyAWmAwAIF     │ Melissa              │ 31                   │
-│ qqnXCfnaHEptWxLC     │ Angela               │ 33                   │
-╰──────────────────────┴──────────────────────┴──────────────────────╯
-     */
 
     public static void main(String[] args) throws Exception {
         // generate some person objects
@@ -72,15 +50,6 @@ public class TableExample {
             System.out.println(Arrays.toString(x.getMaxWidths()));
             System.out.println();
         }
-
-        // final Table table = new Table(
-        //   Table.headers("Name", "Age"),
-        //   Table.ann(people)
-        // );
-        //   Table.it(people, person -> {
-        //     Table.collect(person.name, person.age)
-        //   })
-        // );
     }
 
 }
