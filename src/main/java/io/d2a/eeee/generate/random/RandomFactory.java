@@ -230,7 +230,16 @@ public class RandomFactory {
     }
 
     public static <T> void fill(final T[] array) throws Exception {
-        fill(array, "", null);
+        fill(array, "");
+    }
+
+    public static <T> void fillUnsafe(final T[] array) {
+        try {
+            fill(array);
+        } catch (Exception e) {
+            System.out.println("cannot fill array: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
 }
