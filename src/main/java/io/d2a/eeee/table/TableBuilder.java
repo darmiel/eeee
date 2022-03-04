@@ -1,6 +1,7 @@
 package io.d2a.eeee.table;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -32,6 +33,34 @@ public class TableBuilder {
 
     public TableBuilder color(final boolean color) {
         this.color = color;
+        return this;
+    }
+
+    public static String[] array(final String ... val) {
+        return val;
+    }
+
+    public <T> TableBuilder loads(final Collection<T> collection, final Stringer<T> stringer) {
+        final int offset;
+        if (this.data == null) {
+            offset = 0;
+            this.data = new Row[collection.size()];
+        } else {
+            offset = this.data.length;
+            final Row[] newData = new Row[this.data.length + collection.size()];
+            System.arraycopy(this.data, 0, newData, 0, this.data.length);
+            this.data = newData;
+        }
+
+        int index = 0;
+        for (final T obj : collection) {
+            final Cell[] cells = new Cell[this.headers.length];
+            final String[] strings = stringer.stringify(obj);
+            for (int i = 0; i < strings.length; i++) {
+                cells[i] = new Cell(TextAlign.LEFT, strings[i]);
+            }
+            this.data[offset + index++] = new Row(cells);
+        }
         return this;
     }
 

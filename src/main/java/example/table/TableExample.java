@@ -39,9 +39,13 @@ public class TableExample {
         // generate some person objects
         for (int i = 0; i < 4; i++) {
             final Person[] people = new Person[10];
-            RandomFactory.fillUnsafe(people);
+            RandomFactory.fill(people);
 
-            final Table x = TableBuilder.from(people, Person.class)
+            final Table x = TableBuilder.builder("Name", "Age")
+                .loads(Arrays.asList(people), person -> TableBuilder.array(
+                    person.first,
+                    String.valueOf(person.age))
+                )
                 .color((i & 1) == 0)
                 .style((i & 1) == 0 ? TableStyle.ROUND : TableStyle.SHARP)
                 .build();
