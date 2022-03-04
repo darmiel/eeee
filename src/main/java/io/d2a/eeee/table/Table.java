@@ -23,10 +23,9 @@ public class Table {
         for (int i = 0; i < headers.length; i++) {
             this.maxWidths[i] = headers[i].getLength();
             for (final Row dataRow : this.data) {
-                for (final Cell cell : dataRow.getCells()) {
-                    if (this.maxWidths[i] < cell.getLength()) {
-                        this.maxWidths[i] = cell.getLength();
-                    }
+                final Cell cell = dataRow.getCells()[i];
+                if (this.maxWidths[i] < cell.getLength()) {
+                    this.maxWidths[i] = cell.getLength();
                 }
             }
         }
