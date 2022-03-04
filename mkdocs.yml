@@ -2,8 +2,6 @@ site_name: eeee
 repo_url: https://github.com/darmiel/eeee
 repo_name: darmiel/eeee
 edit_uri: edit/main/docs/
-plugins:
-  - git-revision-date
 
 markdown_extensions:
   - pymdownx.emoji:

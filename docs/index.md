@@ -41,7 +41,7 @@ practice. Also, definitely not type-safe.
 <dependency>
   <groupId>com.github.darmiel</groupId>
   <artifactId>eeee</artifactId>
-  <version>-SNAPSHOT</version>
+  <version>2.4.0</version>
 </dependency>
 ```
 
