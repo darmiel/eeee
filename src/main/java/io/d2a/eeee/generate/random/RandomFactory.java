@@ -230,7 +230,7 @@ public class RandomFactory {
     }
 
     public static <T> void fill(final T[] array) throws Exception {
-        fill(array, "", null);
+        fill(array, "");
     }
 
     public static <T> void fillUnsafe(final T[] array) {

@@ -10,12 +10,20 @@ public class Cell {
         this.value = value;
     }
 
-    public String toString(final int width) {
-        return this.align.format(this.value, width);
+    public String toString(final String color, final int width) {
+        return this.align.format(color, this.value, width);
     }
 
     public int getLength() {
         return this.value.length();
+    }
+
+    public static Cell[] from(final TextAlign align, final String ... str) {
+        final Cell[] res = new Cell[str.length];
+        for (int i = 0; i < str.length; i++) {
+            res[i] = new Cell(align, str[i]);
+        }
+        return res;
     }
 
 }

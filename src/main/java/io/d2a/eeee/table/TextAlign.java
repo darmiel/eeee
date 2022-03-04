@@ -2,27 +2,38 @@ package io.d2a.eeee.table;
 
 import static io.d2a.eeee.converter.StringConverter.repeat;
 
+import io.d2a.eeee.util.AnsiColor;
+
 public enum TextAlign {
 
     LEFT,
     RIGHT,
     CENTER;
 
-    public String format(final String input, final int width) {
+    public String format(final String color, final String input, final int width) {
         final int pad = width - input.length();
 
+        final String val;
         switch (this) {
             case LEFT:
-                return input + repeat(" ", pad);
+                val = input + repeat(" ", pad);
+                break;
             case RIGHT:
-                return repeat(" ", pad) + input;
+                val = repeat(" ", pad) + input;
+                break;
             case CENTER:
                 final String a = repeat(" ", pad / 2);
-                return a + input + repeat(" ", width - input.length() - a.length());
+                val = a + input + repeat(" ", width - input.length() - a.length());
+                break;
             default:
-                return "#" + input + "#";
-
+                val = "#" + input + "#";
+                break;
         }
+
+        if (!color.isEmpty()) {
+            return color + val + AnsiColor.RESET;
+        }
+        return val;
     }
 
 }
