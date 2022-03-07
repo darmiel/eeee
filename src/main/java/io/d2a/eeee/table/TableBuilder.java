@@ -1,11 +1,16 @@
 package io.d2a.eeee.table;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TableBuilder {
 
@@ -36,11 +41,19 @@ public class TableBuilder {
         return this;
     }
 
-    public static String[] array(final String ... val) {
+    public static String[] array(final String... val) {
         return val;
     }
 
-    public <T> TableBuilder loads(final Collection<T> collection, final Stringer<T> stringer) {
+    public <T> TableBuilder loads(final Collection<T> c, final Stringer<T> stringer) {
+        final Collection<T> collection = c.stream()
+            .filter(Objects::nonNull)
+            .collect(Collectors.toCollection(ArrayList::new));
+
+        if (collection.size() == 0) {
+            return this;
+        }
+
         final int offset;
         if (this.data == null) {
             offset = 0;
@@ -65,13 +78,8 @@ public class TableBuilder {
     }
 
     @SafeVarargs
-    public final <T> TableBuilder loads(final T... values)
+    public final <T> TableBuilder loads(final Class<T> clazz, final T... values)
         throws IllegalArgumentException, IllegalAccessException {
-        if (values.length == 0) {
-            return this;
-        }
-
-        final Class<?> clazz = values[0].getClass();
 
         // find fields
         final Map<String, Field> fields = new HashMap<>();
@@ -84,32 +92,27 @@ public class TableBuilder {
             fields.put(column.value(), field);
         }
 
-        final int offset;
-        if (this.data == null) {
-            offset = 0;
-            this.data = new Row[values.length];
-        } else {
-            offset = this.data.length;
-            final Row[] newData = new Row[this.data.length + values.length];
-            System.arraycopy(this.data, 0, newData, 0, this.data.length);
-            this.data = newData;
-        }
-
-        for (int i = 0; i < values.length; i++) {
-            final Cell[] cells = new Cell[this.headers.length];
-            for (int j = 0; j < this.headers.length; j++) {
-                final String header = headers[j];
+        final String[] r = new String[0];
+        return this.loads(Arrays.asList(values), elem -> {
+            if (elem == null) {
+                return null;
+            }
+            final List<String> v = new ArrayList<>();
+            for (final String header : this.headers) {
                 if (!fields.containsKey(header)) {
                     throw new IllegalArgumentException("unknown column: " + header);
                 }
-
-                final Object value = fields.get(header).get(values[i]);
-                final String str = value != null ? value.toString() : "n/a";
-                cells[j] = new Cell(TextAlign.LEFT, str);
+                final Object value;
+                try {
+                    value = fields.get(header).get(elem);
+                    final String str = value != null ? value.toString() : "n/a";
+                    v.add(str);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
-            this.data[offset + i] = new Row(cells);
-        }
-        return this;
+            return v.toArray(r);
+        });
     }
 
     ///
@@ -136,21 +139,17 @@ public class TableBuilder {
             ? clazz.getAnnotation(HeaderOrder.class).value()
             : getHeadersFromClass(clazz);
         return builder(headers)
-            .loads(array);
+            .loads(clazz, array);
     }
 
     public static <T> TableBuilder fromUnsafe(
         final T[] array,
         final Class<T> clazz
     ) {
-        final String[] headers = clazz.isAnnotationPresent(HeaderOrder.class)
-            ? clazz.getAnnotation(HeaderOrder.class).value()
-            : getHeadersFromClass(clazz);
         try {
-            return builder(headers).loads(array);
+            return from(array, clazz);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return builder(headers);
+            return null;
         }
     }
 
