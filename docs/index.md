@@ -1,4 +1,4 @@
-# EEEE
+# About
 
 EEEE* is a tiny framework for simple console input of values and generation of objects, which I
 wrote mainly for exercises of my university, because often simple inputs with a scanner are
@@ -20,56 +20,53 @@ practice. Also, definitely not type-safe.
 
 ## Installation
 
-### Maven
-
-1. Add the JitPack repository to your `pom.xml`:
-
-```xml
-<repositories>
-  <repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-  </repository>
-</repositories>
-```
-
-2. Add the `eeee`-dependency:
-
 [![](https://jitpack.io/v/darmiel/eeee.svg)](https://jitpack.io/#darmiel/eeee)
 
-```xml
-<dependency>
-  <groupId>com.github.darmiel</groupId>
-  <artifactId>eeee</artifactId>
-  <version>2.5.0</version>
-</dependency>
-```
+??? hint "Maven"
 
-### Gradle
+    1. Add the JitPack repository to your `pom.xml`:
 
-1. Add the JitPack repository to your build file:
+    ```xml
+    <repositories>
+      <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+      </repository>
+    </repositories>
+    ```
 
-```gradle
-allprojects {
-    repositories {
-         ...
-         maven { url 'https://jitpack.io' }
+    2. Add the `eeee`-dependency:
+
+    ```xml
+    <dependency>
+      <groupId>com.github.darmiel</groupId>
+      <artifactId>eeee</artifactId>
+      <version>2.5.0</version>
+    </dependency>
+    ```
+
+??? hint "Gradle"
+
+    1. Add the JitPack repository to your build file:
+
+    ```gradle
+    allprojects {
+        repositories {
+             ...
+             maven { url 'https://jitpack.io' }
+        }
     }
-}
-```
+    ```
 
-2. Add the `eeee`-dependency:
+    2. Add the `eeee`-dependency:
 
-[![](https://jitpack.io/v/darmiel/eeee.svg)](https://jitpack.io/#darmiel/eeee)
-
-```gradle
-dependencies {
-    implementation 'com.github.darmiel:eeee:Tag'
-}
-```
+    ```gradle
+    dependencies {
+        implementation 'com.github.darmiel:eeee:Tag'
+    }
+    ```
 
 ---
 
 *) To be honest, I've already forgotten the meaning of the abbreviation. But it was certainly
 perfect!
-
