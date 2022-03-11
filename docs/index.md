@@ -62,7 +62,7 @@ practice. Also, definitely not type-safe.
 
     ```gradle
     dependencies {
-        implementation 'com.github.darmiel:eeee:Tag'
+        implementation 'com.github.darmiel:eeee:2.5.0'
     }
     ```
 
