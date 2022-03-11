@@ -11,7 +11,7 @@ public class MultiMethodExample {
         Starter.start(MultiMethodExample.class, args, true);
     }
 
-    @Entrypoint("get name")
+    @Entrypoint(value = "get name")
     public String getName(@Prompt("Your Name") final String name) {
         return name;
     }

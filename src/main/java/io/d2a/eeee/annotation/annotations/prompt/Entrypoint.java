@@ -17,4 +17,6 @@ public @interface Entrypoint {
 
     boolean stopwatch() default false;
 
+    boolean show() default false;
+
 }

@@ -1,12 +1,16 @@
 package io.d2a.eeee;
 
+import io.d2a.eeee.annotation.annotations.prompt.Entrypoint;
 import io.d2a.eeee.annotation.annotations.prompt.ForceRun;
 import io.d2a.eeee.converter.StringConverter;
 import io.d2a.eeee.inject.Injector;
+import java.lang.reflect.Parameter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class EntryPointCollection {
 
@@ -99,11 +103,25 @@ public class EntryPointCollection {
         return method.invoke(this);
     }
 
+    private boolean isCalledEntrypoint(final String name) {
+        return this.methods.stream()
+            .flatMap((Function<EntryMethod, Stream<Parameter>>)
+                method -> Stream.of(method.method.getParameters()))
+            .filter(p -> p.isAnnotationPresent(Entrypoint.class))
+            .anyMatch(p -> p.getAnnotation(Entrypoint.class).value().equals(name));
+    }
+
     @Override
     public String toString() {
         final StringBuilder bob = new StringBuilder();
         for (int i = 0; i < this.methods.size(); i++) {
             final EntryMethod entry = this.methods.get(i);
+
+            if (!entry.entrypoint.show()) {
+                if (this.isCalledEntrypoint(entry.entrypoint.value())) {
+                    continue;
+                }
+            }
 
             if (i != 0) {
                 bob.append('\n');
