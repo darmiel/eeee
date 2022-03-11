@@ -2,12 +2,12 @@ package io.d2a.eeee;
 
 import io.d2a.eeee.annotation.annotations.prompt.Entrypoint;
 import io.d2a.eeee.annotation.provider.PriorityAnnotationProvider;
-import io.d2a.eeee.inject.Injector;
+import io.d2a.eeee.converter.StringConverter;
+import io.d2a.eeee.prompt.Call;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class EntryMethod {
 
@@ -21,11 +21,14 @@ public class EntryMethod {
         this.clazz = clazz;
     }
 
-    public void invoke(final Scanner scanner, final Injector injector) throws Exception {
-        final String typeStr = Starter.formatTypes(method.getParameterTypes(), true);
+    public Object invoke(final EntryPointCollection epc) throws Exception {
+        final String typeStr = StringConverter.formatTypes(method.getParameterTypes(), true);
 
-        // create starter class using injector
-        final Object instance = injector.create(this.clazz);
+        // find instance to invoke method in
+        final Object instance = epc.findInstance(this);
+
+        // res is returned at the end
+        Object res;
 
         do {
             final List<Object> parameters = new ArrayList<>();
@@ -42,14 +45,34 @@ public class EntryMethod {
                 }
 
                 for (final Parameter parameter : this.method.getParameters()) {
+                    if (Call.class.isAssignableFrom(parameter.getType())) {
+                        if (!parameter.isAnnotationPresent(Entrypoint.class)) {
+                            throw new IllegalArgumentException("found call type but without entrypoint annotation");
+                        }
+                        final Entrypoint target = parameter.getAnnotation(Entrypoint.class);
+                        final EntryMethod targetMethod = epc.select(target.value());
+                        if (targetMethod == null) {
+                            throw new IllegalArgumentException("cannot find entrypoint");
+                        }
+                        parameters.add((Call<Object>) () -> {
+                            try {
+                                return epc.invoke(targetMethod);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                return null;
+                            }
+                        });
+                        continue;
+                    }
+
                     // execute wrapper
                     parameters.add(PromptFactory.requestAll(
-                        scanner,
+                        epc.getScanner(),
                         new PriorityAnnotationProvider(
                             method::getAnnotation,
                             parameter::getAnnotation
                         ),
-                        injector,
+                        epc.getInjector(),
                         parameter.getType(),
                         parameter.getName()
                     ));
@@ -68,7 +91,7 @@ public class EntryMethod {
             }
 
             final long timeStart = System.currentTimeMillis();
-            this.method.invoke(instance, parameters.toArray());
+            res = this.method.invoke(instance, parameters.toArray());
             final long timeEnd = System.currentTimeMillis();
 
             if (this.entrypoint.verbose() || this.entrypoint.stopwatch()) {
@@ -79,6 +102,8 @@ public class EntryMethod {
                 System.out.printf("Execution complete! Took approx. %dms.%n", timeEnd - timeStart);
             }
         } while (this.entrypoint.loop());
+
+        return res;
     }
 
 }

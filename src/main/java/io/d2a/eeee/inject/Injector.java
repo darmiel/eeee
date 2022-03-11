@@ -15,6 +15,10 @@ public class Injector {
     private static final Logger logger = Logger.getLogger("Injector");
     private final BiMap<Class<?>, String, Object> dependencies = new BiMap<>();
 
+    public Injector() {
+        this.register(Injector.class, this); // default register injector
+    }
+
     public <T> Injector register(final Class<T> clazz, final T t, final String name) {
         this.dependencies.put(clazz, name, t);
         return this;

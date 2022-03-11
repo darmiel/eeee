@@ -1,7 +1,6 @@
 package io.d2a.eeee;
 
 import io.d2a.eeee.annotation.annotations.prompt.Entrypoint;
-import io.d2a.eeee.annotation.annotations.prompt.ForceRun;
 import io.d2a.eeee.inject.Injector;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -43,20 +42,49 @@ public class Starter {
         final Class<?> clazz,
         final String[] args
     ) throws Exception {
-        start(clazz, args, null);
+        start(clazz, args, false);
+    }
+
+    public static void start(
+        final Class<?> clazz,
+        final boolean loop
+    ) throws Exception {
+        start(clazz, new String[0], loop);
     }
 
     public static void start(
         final Class<?> clazz,
         final String[] args,
+        final boolean loop
+    ) throws Exception {
+        start(clazz, loop, args, null);
+    }
+
+    public static void start(
+        final Class<?> clazz,
+        final boolean loop,
+        final String[] args,
         final Consumer<Injector> injectorSupplier
     ) throws Exception {
+        final EntryPointCollection epc = create(clazz, args, injectorSupplier);
+        //noinspection LoopConditionNotUpdatedInsideLoop
+        do {
+            // select method and run
+            final EntryMethod method = epc.select();
+            epc.invoke(method);
+        } while (loop);
+    }
+
+    private static EntryPointCollection create(
+        final Class<?> clazz,
+        final String[] args,
+        final Consumer<Injector> injectorSupplier
+    ) {
         final Scanner scanner = new Scanner(System.in);
 
         final Injector injector = new Injector()
             .register(Scanner.class, scanner)
             .register(String[].class, args, "args");
-        injector.register(Injector.class, injector); // register self
 
         if (injectorSupplier != null) {
             injectorSupplier.accept(injector);
@@ -79,8 +107,7 @@ public class Starter {
 
         // if no method was found, simply exit
         if (methods.size() == 0) {
-            System.out.println("Error: cannot find entrypoint in class.");
-            return;
+            throw new IllegalArgumentException("no entrypoint found in class.");
         }
 
         // order list by method name
@@ -89,76 +116,11 @@ public class Starter {
             o2.method.getName()
         ));
 
-        // auto select first method if only one method exists in that class
-        EntryMethod config = getForcedConfig(methods);
-        if (config == null && (config = select(clazz, scanner, methods)) == null) {
-            System.out.println("Invalid run config.");
-            return;
-        }
-
-        config.invoke(scanner, injector);
-    }
-
-    ///
-
-    private static EntryMethod getForcedConfig(final List<? extends EntryMethod> list) {
-        for (final EntryMethod config : list) {
-            if (config.method.isAnnotationPresent(ForceRun.class)) {
-                return config;
-            }
-        }
-        return null;
-    }
-
-    private static void printConfigs(final Class<?> clazz, final List<? extends EntryMethod> list) {
-        // print method selection
-        int i = 0;
-        for (final EntryMethod method : list) {
-            // print method number and name
-            System.out.printf("%d. %s::%s@%s (%s)%n",
-                ++i,
-                clazz.getSimpleName(),
-                method.entrypoint.value(),
-                method.method.getName(),
-                formatTypes(method.method.getParameterTypes(), false)
-            );
-        }
-    }
-
-    private static EntryMethod select(final Class<?> clazz, final Scanner scanner,
-        final List<? extends EntryMethod> list) {
-        // if there's only 1 method to run, just select the first
-        if (list.size() == 1) {
-            return list.get(0);
-        }
-        while (true) {
-            printConfigs(clazz, list);
-            System.out.printf("[?] Select Method to run [1-%d]: ", list.size());
-
-            final String line = scanner.nextLine().trim();
-            try {
-                final int i = Integer.parseInt(line);
-                if (i > 0 && i <= list.size()) {
-                    return list.get(i - 1);
-                }
-            } catch (NumberFormatException ignored) {
-            }
-        }
-    }
-
-    public static String formatTypes(final Class<?>[] types, boolean sh) {
-        final StringBuilder bob = new StringBuilder();
-        for (final Class<?> type : types) {
-            if (bob.length() > 0) {
-                bob.append(",");
-            }
-            if (sh) {
-                bob.append(type.getSimpleName().charAt(0));
-            } else {
-                bob.append(type.getSimpleName());
-            }
-        }
-        return bob.toString();
+        return new EntryPointCollection(
+            scanner,
+            injector,
+            methods
+        );
     }
 
 }

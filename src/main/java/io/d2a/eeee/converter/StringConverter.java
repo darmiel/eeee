@@ -100,4 +100,19 @@ public class StringConverter {
         return bob.toString();
     }
 
+    public static String formatTypes(final Class<?>[] types, boolean sh) {
+        final StringBuilder bob = new StringBuilder();
+        for (final Class<?> type : types) {
+            if (bob.length() > 0) {
+                bob.append(", ");
+            }
+            if (sh) {
+                bob.append(type.getSimpleName().charAt(0));
+            } else {
+                bob.append(type.getSimpleName());
+            }
+        }
+        return bob.toString();
+    }
+
 }
