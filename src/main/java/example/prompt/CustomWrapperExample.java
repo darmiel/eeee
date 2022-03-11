@@ -13,6 +13,15 @@ public class CustomWrapperExample {
         Starter.start(CustomWrapperExample.class, args);
     }
 
+    // For types for which no wrapper has been created yet,
+    // you can implement RawWrapper, which is executed when passing in parameters
+    // If there are several wrappers for one type, @Use can be used:
+    // run(@Use(Rectangle.class) final Rectangle rect) { ... }
+    @Entrypoint
+    public void run(final Rectangle rect) {
+        System.out.println("Got Rect: " + rect);
+    }
+
     public static class Rectangle implements RawWrapper<Rectangle> {
         @Prompt("Height")
         private int height;
@@ -34,9 +43,5 @@ public class CustomWrapperExample {
         }
     }
 
-    @Entrypoint
-    public void customWrapper(final Rectangle rect) {
-        System.out.println("Got Rect: " + rect);
-    }
 
 }

@@ -15,6 +15,9 @@ public class LoopExample {
 
     public static void main(String[] args) {
         Starter.byCaller();
+
+        // if you want to loop the entrypoint selection:
+        Starter.startUnsafe(LoopExample.class, args, true);
     }
 
     public static class Test {

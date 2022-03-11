@@ -12,11 +12,43 @@ public class InjectorExample {
         Starter.start(FieldInjectorExample.class, args);
     }
 
-    private static void run(final Scanner scanner) {
-        final String echo = scanner.nextLine();
-        System.out.printf("Echo! %s%n", echo);
+    // Example 1: Injected object passed over parameters
+    public static class InjectorParameterExample {
+
+        @Entrypoint
+        public void run(@Inject final Scanner scanner) {
+            InjectorExample.run(scanner);
+        }
+
+        // Example 1.1: Create new object and inject into constructor
+        @Entrypoint
+        public void run2(@Inject(create = true) final Test test) {
+            System.out.println("Created Test class: " + test.toString());
+        }
+
+        private static class Test {
+
+            private final Scanner scanner;
+            private final int a;
+            private final int b;
+
+            public Test(@Inject final Scanner scanner) {
+                this.scanner = scanner;
+                this.a = 10;
+                this.b = 15;
+            }
+
+            @Override
+            public String toString() {
+                return "Test{" + "scanner=" + scanner + ", a=" + a + ", b=" + b + '}';
+            }
+        }
+
     }
 
+    // ---------------------------------------------------------------------------------
+
+    // Example 2: Inject values in constructor
     public static class ConstructorInjectorExample {
 
         private final Scanner scanner;
@@ -32,6 +64,9 @@ public class InjectorExample {
 
     }
 
+    // ---------------------------------------------------------------------------------
+
+    // Example 3: Inject values in fields
     public static class FieldInjectorExample {
 
         @Inject
@@ -42,6 +77,12 @@ public class InjectorExample {
             InjectorExample.run(this.scanner);
         }
 
+    }
+
+    // Helper Method for examples above
+    private static void run(final Scanner scanner) {
+        final String echo = scanner.nextLine();
+        System.out.printf("Echo! %s%n", echo);
     }
 
 }

@@ -11,8 +11,12 @@ import java.util.function.Consumer;
 public class Starter {
 
     public static void startUnsafe(final Class<?> clazz, final String[] args) {
+        startUnsafe(clazz, args, false);
+    }
+
+    public static void startUnsafe(final Class<?> clazz, final String[] args, final boolean loop) {
         try {
-            start(clazz, args);
+            start(clazz, args, loop);
         } catch (final Exception ex) {
             ex.printStackTrace();
         }
