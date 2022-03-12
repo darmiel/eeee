@@ -22,7 +22,7 @@ practice. Also, definitely not type-safe.
 
 [![](https://jitpack.io/v/darmiel/eeee.svg)](https://jitpack.io/#darmiel/eeee)
 
-??? hint "Maven"
+???+ hint "Maven"
 
     1. Add the JitPack repository to your `pom.xml`:
 
@@ -45,7 +45,7 @@ practice. Also, definitely not type-safe.
     </dependency>
     ```
 
-??? hint "Gradle"
+???+ hint "Gradle"
 
     1. Add the JitPack repository to your build file:
 

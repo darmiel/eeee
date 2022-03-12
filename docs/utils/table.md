@@ -29,7 +29,7 @@ final Table table = TableBuilder.from(people, Person.class)
 System.out.println(table);
 ```
 
-Output
+Output (note: may be broken on some browsers)
 
 ```
 ╭────────────┬─────╮
@@ -60,6 +60,8 @@ final Table x = TableBuilder.builder("Name", "Age")
 ## Example
 
 ([PeriodicTable.java](https://github.com/qwiri-dhbw/Programmieren-I/blob/1dd600293d4e998289a59ea854dbbc3a566557d9/src/main/java/io/d2a/dhbw/classes/periodic/Main.java))
+
+Output (note: may be broken on some browsers)
 
 ```
 ╭─────────────┬────────┬─────────┬───────┬───────┬───────╮

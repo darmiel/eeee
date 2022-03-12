@@ -21,7 +21,7 @@ public void run(@Prompt("Number of iterations") final int number) {
 // OK! ...
 ```
 
-??? info "@Range"
+???+ info "@Range"
 
     The size of numbers, the length of strings, and the capacity of arrays can be limited with the `@Range`-annotation:
 
@@ -35,7 +35,7 @@ public void run(@Prompt("Number of iterations") final int number) {
     }
     ```
 
-??? info "@Pattern"
+???+ info "@Pattern"
 
     Strings can be validated with a regular expression using the `@Pattern`-annotation:
 
@@ -47,7 +47,7 @@ public void run(@Prompt("Number of iterations") final int number) {
     }
     ```
 
-??? info "@Transform"
+???+ info "@Transform"
 
     Strings can additionally be transformed with the `@Transform`-annotation, e.g. UPPER_CASE, lower_case and desreveR:
 
