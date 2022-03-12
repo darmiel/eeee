@@ -34,6 +34,30 @@ Hello Daniel!
 
 ---
 
+## Default Values
+
+Default values can be set for parameters using the `@Default`-annotation:
+
+```java
+@Entrypoint
+public void run(@Prompt("Name") @Default("Simon") final String name) {
+    System.out.printf("Hello %s!%n", name);
+}
+```
+
+If no value is entered, the default value is used.
+
+```
+[String] Name [Simon] > (enter)
+Hello Simon!
+```
+
+!!! bug "Note"
+    Only inputs as string are possible. Enter as default value exactly what you expect from the user.
+
+
+---
+
 ## Arrays
 
 (see [ArrayPromptExample.java](https://github.com/darmiel/eeee/blob/main/src/main/java/example/prompt/ArrayPromptExample.java))
