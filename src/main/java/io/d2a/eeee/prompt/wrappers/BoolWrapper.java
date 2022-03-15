@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class BoolWrapper implements PromptWrapper<Boolean> {
 
-    private static final Set<String> YES = new HashSet<>(Arrays.asList(
+    public static final Set<String> YES = new HashSet<>(Arrays.asList(
         "true",
         "yes",
         "1",
