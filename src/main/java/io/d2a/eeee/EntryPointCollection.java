@@ -45,13 +45,26 @@ public class EntryPointCollection {
     }
 
     public EntryMethod select(final boolean withForced) {
-        // if there's only 1 method to run, just select the first
-        if (this.methods.size() == 1) {
-            return this.methods.get(0);
-        }
-
         // if there's a forced method, return that
         if (withForced) {
+            // if there's only 1 method to run, just select the first
+            EntryMethod firstStart = null;
+            for (final EntryMethod method : this.methods) {
+                if (!method.entrypoint.show() &&
+                    this.isCalledEntrypoint(method.entrypoint.value())) {
+                    continue;
+                }
+                if (firstStart == null) {
+                    firstStart = method;
+                } else {
+                    firstStart = null;
+                    break;
+                }
+            }
+            if (firstStart != null) {
+                return firstStart;
+            }
+
             final EntryMethod forced = this.findForcedEntryPoint();
             if (forced != null) {
                 return forced;

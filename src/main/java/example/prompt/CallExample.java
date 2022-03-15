@@ -10,7 +10,7 @@ import io.d2a.eeee.prompt.Call;
 public class CallExample {
 
     public static void main(String[] args) throws Exception {
-        Starter.start(MultiMethodExample.class, args);
+        Starter.start(CallExample.class, args);
     }
 
     // Method 1: Using Call<?>
@@ -33,7 +33,7 @@ public class CallExample {
     ///
 
     // Helper Entry Point for `a` and `b`
-    @Entrypoint("__get_name")
+    @Entrypoint(value = "__get_name")
     public String getName(@Prompt("Your Name") final String name) {
         return name;
     }
