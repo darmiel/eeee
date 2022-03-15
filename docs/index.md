@@ -41,7 +41,7 @@ practice. Also, definitely not type-safe.
     <dependency>
       <groupId>com.github.darmiel</groupId>
       <artifactId>eeee</artifactId>
-      <version>2.5.0</version>
+      <version>2.5.1</version>
     </dependency>
     ```
 
@@ -62,7 +62,7 @@ practice. Also, definitely not type-safe.
 
     ```gradle
     dependencies {
-        implementation 'com.github.darmiel:eeee:2.5.0'
+        implementation 'com.github.darmiel:eeee:2.5.1'
     }
     ```
 
