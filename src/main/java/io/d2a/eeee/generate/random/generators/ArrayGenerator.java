@@ -19,18 +19,17 @@ public class ArrayGenerator implements Generator<Object> {
         final Class<Object> clazz
     ) throws Exception {
 
-        final Fill fill = provider.get(Fill.class);
-        final FillRange fillRange = provider.get(FillRange.class);
-
         final Use use = provider.get(Use.class);
 
+        // get fill size from annotations
+        final Fill fill = provider.get(Fill.class);
+        final FillRange fillRange = provider.get(FillRange.class);
         final int size;
-        if (fill != null) {
+        if (fill != null) { // @Fill has the highest priority
             size = fill.value();
-        } else if (fillRange != null) {
-            final int min;
-            final int max;
+        } else if (fillRange != null) { // @FillRaneg has the second priority
             final int[] range = fillRange.value();
+            final int min, max;
             if (range.length == 2) {
                 min = range[0];
                 max = range[1];
@@ -41,17 +40,20 @@ public class ArrayGenerator implements Generator<Object> {
                 throw new IllegalArgumentException("invalid fill range");
             }
             size = random.nextInt((max + 1) - min) + min;
-        } else  {
+        } else  { // default is 0
             size = 0;
         }
 
         final Object array = Array.newInstance(clazz.getComponentType(), size);
-
         final Generate generate = provider.get(Generate.class);
 
-        // fill array?
         if (size > 0) {
-            final Class<?> generatorType = use != null ? use.value() : clazz.getComponentType();
+            final Class<?> generatorType;
+            if (use != null ) {
+               generatorType = use.value();
+            } else {
+               generatorType = clazz.getComponentType();
+            }
             for (int i = 0; i < size; i++) {
                 final Object val = RandomFactory.generate(
                     generatorType,
