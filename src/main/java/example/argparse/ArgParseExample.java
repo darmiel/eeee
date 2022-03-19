@@ -5,6 +5,7 @@ import io.d2a.eeee.argparse.flags.BooleanFlag;
 import io.d2a.eeee.argparse.flags.DoubleFlag;
 import io.d2a.eeee.argparse.flags.LongFlag;
 import io.d2a.eeee.argparse.flags.StringFlag;
+import java.util.Arrays;
 
 public class ArgParseExample {
 
@@ -13,7 +14,7 @@ public class ArgParseExample {
         final BooleanFlag booleanFlag = new BooleanFlag("boolean");
         final DoubleFlag doubleFlag = new DoubleFlag("double");
         final LongFlag longFlag = new LongFlag("long");
-        Flags.parse(args);
+        System.out.println(Arrays.toString(Flags.parse(args)));
 
         System.out.println(stringFlag.isUpdated() +  " String: " + stringFlag.get("string-def"));
         System.out.println(booleanFlag.isUpdated() +  " Boolean: " + booleanFlag.get(true));
